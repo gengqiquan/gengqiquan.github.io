@@ -5,21 +5,21 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | Hexo</title>
+  <link rel="dns-prefetch" href="http://www.gengqiquan.com">
+  <title>告别onActivityResult ，用代理实现Rx方式获取startActivityForResult结果 | gengqiquan的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="尊重他人的劳动成果，转载请标明出处：http://blog.csdn.net/gengqiquan/article/details/74331845， 本文出自:【gengqiquan的博客】一个多月没写博客了，实在是最近事情特别多。昨天，在review 公司项目代码的时候发现onActivityResult方法真的好烦，太影响代码的阅读了，而且编写的时候也需要到处切code位置。于是就有了这篇博">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2017/07/11/hello-world/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta property="og:updated_time" content="2017-07-11T09:25:47.000Z">
+<meta property="og:title" content="告别onActivityResult ，用代理实现Rx方式获取startActivityForResult结果">
+<meta property="og:url" content="http://www.gengqiquan.com/2017/07/11/告别onActivityResult-，用代理实现Rx方式获取startActivityForResult结果/index.html">
+<meta property="og:site_name" content="gengqiquan的博客">
+<meta property="og:description" content="尊重他人的劳动成果，转载请标明出处：http://blog.csdn.net/gengqiquan/article/details/74331845， 本文出自:【gengqiquan的博客】一个多月没写博客了，实在是最近事情特别多。昨天，在review 公司项目代码的时候发现onActivityResult方法真的好烦，太影响代码的阅读了，而且编写的时候也需要到处切code位置。于是就有了这篇博">
+<meta property="og:updated_time" content="2017-07-11T10:05:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="告别onActivityResult ，用代理实现Rx方式获取startActivityForResult结果">
+<meta name="twitter:description" content="尊重他人的劳动成果，转载请标明出处：http://blog.csdn.net/gengqiquan/article/details/74331845， 本文出自:【gengqiquan的博客】一个多月没写博客了，实在是最近事情特别多。昨天，在review 公司项目代码的时候发现onActivityResult方法真的好烦，太影响代码的阅读了，而且编写的时候也需要到处切code位置。于是就有了这篇博">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="gengqiquan的博客" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -49,7 +49,7 @@
 			<img src="null" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">gengqiquan</a></h1>
 		</hgroup>
 		
 
@@ -107,7 +107,7 @@
 				<img src="null" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">gengqiquan</h1>
 			</hgroup>
 			
 			
@@ -153,35 +153,52 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-告别onActivityResult-，用代理实现Rx方式获取startActivityForResult结果" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      告别onActivityResult ，用代理实现Rx方式获取startActivityForResult结果
     </h1>
   
 
         
-        <a href="/2017/07/11/hello-world/" class="archive-article-date">
-  	<time datetime="2017-07-11T09:25:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-11</time>
+        <a href="/2017/07/11/告别onActivityResult-，用代理实现Rx方式获取startActivityForResult结果/" class="archive-article-date">
+  	<time datetime="2017-07-11T10:04:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>尊重他人的劳动成果，转载请标明出处：<a href="http://blog.csdn.net/gengqiquan/article/details/74331845，" target="_blank" rel="external">http://blog.csdn.net/gengqiquan/article/details/74331845，</a> 本文出自:【gengqiquan的博客】<br>一个多月没写博客了，实在是最近事情特别多。<br>昨天，在review 公司项目代码的时候发现onActivityResult方法真的好烦，太影响代码的阅读了，而且编写的时候也需要到处切code位置。于是就有了这篇博客和<a href="https://github.com/gengqiquan/RxActivityResult" target="_blank" rel="external">RxActivityResult</a> 这个库。</p>
+<a id="more"></a>
+<p>大概的调用方式就是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">RxActivityResult.with(MainActivity.this).putString(&quot;key&quot;, &quot;笑一个&quot;)</div><div class="line">                      .startActivityWithResult(new Intent(MainActivity.this, SecondActivity.class))</div><div class="line">                      .subscribe(new Consumer&lt;Intent&gt;() &#123;</div><div class="line">                          @Override</div><div class="line">                          public void accept(Intent intent) throws Exception &#123;</div><div class="line">                              tv.setText(intent.getStringExtra(&quot;msg&quot;));</div><div class="line">                          &#125;</div><div class="line">                      &#125;);</div></pre></td></tr></table></figure>
+<p>源码大家直接到链接看好了，这篇博客主要是聊聊思路</p>
+<p>要想完全告别onActivityResult（），有两种方案<br>1、使用进程注入的方式hook系统的activity数据发送，这种方案比较复杂，用到ndk知识，需要在源码下编译应用，不适合大部分人。<br>2、利用代理进行跳转事件转发代理和 onActivityResult（）事件代理接收后再通知委托者。<br>这里我们用第二种，代理对象有两个供选择，一个是activity，每次startActivityForResult的时候打开的使我们的代理activity（ProxyActivity），然后由ProxyActivity进行转发intent，并在ProxyActivity里进行 onActivityResult（）事件处理，然后通知委托者；所以我们需要在manifest进行注册，并且需要合理的管理activity的堆栈。<br>一个是利用Fragment，这就需要将Fragment加载到activity上，否则发起intent的时候会报 not attach activity 异常，再一个就是需要兼容v4和app两种情况，当然，如果大家的项目里的基类是固定的一种就不需要了。</p>
+<p>下面我们来看看具体实现方式<br>首先构建一个请求容器对象，用来存放被转发的intent和请求识别码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class Request  &#123;</div><div class="line">    Intent intent;</div><div class="line">    int code;</div><div class="line"></div><div class="line">    public Request(Intent intent, int code) &#123;</div><div class="line">        this.intent = intent;</div><div class="line">        this.code = code;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再构建一个结果容器对象，用来存放onActivityResult返回的结果和请求识别码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public class Result &#123;</div><div class="line">    Intent intent;</div><div class="line"></div><div class="line">    public Result(Intent intent, int code) &#123;</div><div class="line">        this.intent = intent;</div><div class="line">        this.code = code;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    int code;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后我们的返回结果是要以RxJava的方式传递给委托者的。这里我们可以参考rxbus的实现方式<br>构建一个subject</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static PublishSubject&lt;Result&gt; subject = PublishSubject.create();</div></pre></td></tr></table></figure>
+<p>然后我们需要把Fragment加载到Activity上，这就需要有一个界面控件ID和一个FragmentManager，FragmentManager我们可以从委托者获取，根据activity和fragmentActivity的不同决定获取不同的FragmentManager，这个控件ID怎么来呢?熟悉Android源码的同学可能就知道了，每个界面的根布局其实都是同一个系统ID（android.R.id.content）这个ID其实可以用来做很多事，比如透明状态栏时软键盘不顶起布局的时候可以用来强制位移布局，或者自己做伪分屏。</p>
+<p>接下来就是创建一个代理fragment并且把请求委托给它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">final Request request = new Request(intent, intent.hashCode());</div><div class="line">    final V4Fragment v4Fragment = new V4Fragment();</div><div class="line">    v4Fragment.setRequest(request);</div><div class="line">    v4Transaction.replace(android.R.id.content, v4Fragment)</div><div class="line">            .commitAllowingStateLoss();</div><div class="line">    v4Transaction = null;</div></pre></td></tr></table></figure>
+<p>这里的请求识别码我们直接通过求intent的hash值来得到。</p>
+<p>在代理fragment里进行转发intent和转发返回结果操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">public class V4Fragment extends Fragment &#123;</div><div class="line">    @Override</div><div class="line">    public void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</div><div class="line">        if (resultCode == Activity.RESULT_OK) &#123;</div><div class="line">            if (request != null) &#123;</div><div class="line">                RxActivityResult.post(new Result(data, request.code));</div><div class="line">            &#125;</div><div class="line">            request = null;</div><div class="line">            this.getActivity().getSupportFragmentManager().beginTransaction().detach(this).commit();</div><div class="line">        &#125;</div><div class="line">        super.onActivityResult(requestCode, resultCode, data);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Request request;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onAttach(Activity activity) &#123;</div><div class="line">        super.onAttach(activity);</div><div class="line">        if (request != null) &#123;</div><div class="line">            Intent intent = request.intent;</div><div class="line">            startActivityForResult(intent, 0);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setRequest(Request request) &#123;</div><div class="line">        this.request = request;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过subject进行发送<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">protected static void post(Result result) &#123;</div><div class="line"></div><div class="line">      if (result.intent != null) &#123;</div><div class="line">          subject.onNext(result);</div><div class="line">      &#125; else &#123;</div><div class="line">          subject.onError(new Exception(&quot;intent is null&quot;));</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>根据请求识别码进行筛选</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">return subject.filter(new Predicate&lt;Result&gt;() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean test(Result result) throws Exception &#123;</div><div class="line">                    return request.code == result.code;</div><div class="line">                &#125;</div><div class="line">            &#125;).map(new Function&lt;Result, Intent&gt;() &#123;</div><div class="line">                @Override</div><div class="line">                public Intent apply(Result result) throws Exception &#123;</div><div class="line">                    return result.intent;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div></pre></td></tr></table></figure>
+<p>这样就得到了委托者所需要的返回结果了。</p>
+<p>完整的示例代码、源码及gradle依赖方式请看<a href="https://github.com/gengqiquan/RxActivityResult" target="_blank" rel="external">https://github.com/gengqiquan/RxActivityResult</a> </p>
+<p>有什么建议的可以留言喔</p>
+<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
+<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
 
       
 
@@ -261,7 +278,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/11/hello-world/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.gengqiquan.com/2017/07/11/告别onActivityResult-，用代理实现Rx方式获取startActivityForResult结果/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -308,7 +325,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 John Doe
+    		&copy; 2017 gengqiquan
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
