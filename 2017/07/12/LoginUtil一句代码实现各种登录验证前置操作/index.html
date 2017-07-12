@@ -112,7 +112,7 @@
 <meta property="og:url" content="http://www.gengqiquan.com/2017/07/12/LoginUtil一句代码实现各种登录验证前置操作/index.html">
 <meta property="og:site_name" content="gengqiquan的博客">
 <meta property="og:description" content="尊重他人的劳动成果，转载请标明出处：http://blog.csdn.net/gengqiquan/article/details/53782194， 本文出自:【gengqiquan的博客】 一句代码进行登录验证前置操作123LoginUtil.doActionNeedLogin(this, () -&amp;gt; &amp;#123;       //do something need login">
-<meta property="og:updated_time" content="2017-07-12T09:47:56.000Z">
+<meta property="og:updated_time" content="2017-07-12T09:49:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LoginUtil一句代码实现各种登录验证前置操作">
 <meta name="twitter:description" content="尊重他人的劳动成果，转载请标明出处：http://blog.csdn.net/gengqiquan/article/details/53782194， 本文出自:【gengqiquan的博客】 一句代码进行登录验证前置操作123LoginUtil.doActionNeedLogin(this, () -&amp;gt; &amp;#123;       //do something need login">
@@ -410,6 +410,7 @@
       
         <p>尊重他人的劳动成果，转载请标明出处：<a href="http://blog.csdn.net/gengqiquan/article/details/53782194，" target="_blank" rel="external">http://blog.csdn.net/gengqiquan/article/details/53782194，</a> 本文出自:【gengqiquan的博客】</p>
 <h1 id="一句代码进行登录验证前置操作"><a href="#一句代码进行登录验证前置操作" class="headerlink" title="一句代码进行登录验证前置操作"></a>一句代码进行登录验证前置操作</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LoginUtil.doActionNeedLogin(<span class="keyword">this</span>, () -&gt; &#123;</div><div class="line">       <span class="comment">//do something need login</span></div><div class="line">      &#125;);</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><h3 id="doActionNeedLogin"><a href="#doActionNeedLogin" class="headerlink" title="doActionNeedLogin"></a>doActionNeedLogin</h3><p>检查是否登录<br>登录直接执行操作，未登录跳转登录，登录后继续执行操作，放弃登录则什么都不做</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LoginUtil.doActionNeedLogin(<span class="keyword">this</span>, () -&gt; &#123;</div><div class="line">       <span class="comment">//do something need login</span></div><div class="line">      &#125;);</div></pre></td></tr></table></figure>
 <h3 id="doActionJustAfterLogin"><a href="#doActionJustAfterLogin" class="headerlink" title="doActionJustAfterLogin"></a>doActionJustAfterLogin</h3><p>检查是否登录<br>已登录什么都不做<br>未登录跳转登录，登录后继续执行操作，放弃登录则什么都不做</p>

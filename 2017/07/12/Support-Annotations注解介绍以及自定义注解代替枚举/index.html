@@ -112,7 +112,7 @@
 <meta property="og:url" content="http://www.gengqiquan.com/2017/07/12/Support-Annotations注解介绍以及自定义注解代替枚举/index.html">
 <meta property="og:site_name" content="gengqiquan的博客">
 <meta property="og:description" content="尊重他人的劳动成果，转载请标明出处：http://blog.csdn.net/gengqiquan/article/details/70185731， 本文出自:【gengqiquan的博客】 上篇博客嘀咕了注解的基本知识。这篇和大家唠唠Android提供的一些编译限制注解以及怎么自定义贴合自己项目框架的限制注解 Android支持Java默认的那些注解，同时通过一些依赖库也额外提供了很多注解，了">
-<meta property="og:updated_time" content="2017-07-12T09:46:56.000Z">
+<meta property="og:updated_time" content="2017-07-12T09:50:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Support Annotations注解介绍以及自定义注解代替枚举">
 <meta name="twitter:description" content="尊重他人的劳动成果，转载请标明出处：http://blog.csdn.net/gengqiquan/article/details/70185731， 本文出自:【gengqiquan的博客】 上篇博客嘀咕了注解的基本知识。这篇和大家唠唠Android提供的一些编译限制注解以及怎么自定义贴合自己项目框架的限制注解 Android支持Java默认的那些注解，同时通过一些依赖库也额外提供了很多注解，了">
@@ -411,6 +411,7 @@
         <p>尊重他人的劳动成果，转载请标明出处：<a href="http://blog.csdn.net/gengqiquan/article/details/70185731，" target="_blank" rel="external">http://blog.csdn.net/gengqiquan/article/details/70185731，</a> 本文出自:【gengqiquan的博客】</p>
 <p>上篇博客嘀咕了注解的基本知识。这篇和大家唠唠Android提供的一些编译限制注解以及怎么自定义贴合自己项目框架的限制注解</p>
 <p>Android支持Java默认的那些注解，同时通过一些依赖库也额外提供了很多注解，了解并熟练使用这些注解能够让你的代码更加严谨，结构更加清晰、架构更易维护</p>
+<a id="more"></a>
 <p>  Android support library从19.1版本开始引入了一个新的注解库Support Annotations<br>support appcompa-v7里面默认包含了这个库，如果你没有使用的话也可以通过添加单独依赖的方式引入<br>在model的build.gradle中添加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile &apos;com.android.support:support-annotations:25.2.0&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>选取的25.2.0版本的，包含了如下几种类型的注解</p>
 <ul>
