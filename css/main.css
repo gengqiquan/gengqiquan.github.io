@@ -1122,7 +1122,15 @@ pre .javascript .function {
   transform: rotate(30deg);
 }
 .posts-expand {
-  padding-top: 40px;
+  padding-top: 20px;
+}
+.posts-expand .post-eof {
+  display: block;
+  margin: 30px auto 20px;
+  width: 8%;
+  height: 1px;
+  background: #ccc;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .posts-expand {
@@ -1904,7 +1912,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #f66285;
+  background: #cf1ded;
 }
 .links-of-blogroll {
   font-size: 13px;
