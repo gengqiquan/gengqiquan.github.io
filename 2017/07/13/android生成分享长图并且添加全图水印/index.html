@@ -106,15 +106,16 @@
 
 
 
-<meta name="description" content="陌上人如玉，公子世无双">
-<meta property="og:type" content="website">
-<meta property="og:title" content="gengqiquan的博客">
-<meta property="og:url" content="http://www.gengqiquan.com/archives/2017/07/index.html">
+<meta name="description" content="领导最近觉得携程的截屏生成长图分享效果比较好，所以我们也加了个；产品觉得分享出去的长图需要加公司品牌水印，于是我们也加了个；嗯，事件起因就是这样。长图一般是ScrollView和ListView。我们需要取得这两个控件的完整显示的图片。原理很简单，搞一张和控件长宽一致的画布（就是创建一个高宽相等的bitmap）。然后调用控件的draw方法把自己画到画布上去。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android生成分享长图并且添加全图水印">
+<meta property="og:url" content="http://www.gengqiquan.com/2017/07/13/android生成分享长图并且添加全图水印/index.html">
 <meta property="og:site_name" content="gengqiquan的博客">
-<meta property="og:description" content="陌上人如玉，公子世无双">
+<meta property="og:description" content="领导最近觉得携程的截屏生成长图分享效果比较好，所以我们也加了个；产品觉得分享出去的长图需要加公司品牌水印，于是我们也加了个；嗯，事件起因就是这样。长图一般是ScrollView和ListView。我们需要取得这两个控件的完整显示的图片。原理很简单，搞一张和控件长宽一致的画布（就是创建一个高宽相等的bitmap）。然后调用控件的draw方法把自己画到画布上去。">
+<meta property="og:updated_time" content="2017-07-13T05:51:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gengqiquan的博客">
-<meta name="twitter:description" content="陌上人如玉，公子世无双">
+<meta name="twitter:title" content="android生成分享长图并且添加全图水印">
+<meta name="twitter:description" content="领导最近觉得携程的截屏生成长图分享效果比较好，所以我们也加了个；产品觉得分享出去的长图需要加公司品牌水印，于是我们也加了个；嗯，事件起因就是这样。长图一般是ScrollView和ListView。我们需要取得这两个控件的完整显示的图片。原理很简单，搞一张和控件长宽一致的画布（就是创建一个高宽相等的bitmap）。然后调用控件的draw方法把自己画到画布上去。">
 
 
 
@@ -142,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://www.gengqiquan.com/archives/2017/07/"/>
+  <link rel="canonical" href="http://www.gengqiquan.com/2017/07/13/android生成分享长图并且添加全图水印/"/>
 
 
 
 
 
-  <title>归档 | gengqiquan的博客</title>
+  <title>android生成分享长图并且添加全图水印 | gengqiquan的博客</title>
   
 
 
@@ -173,7 +174,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 <a href="https://github.com/gengqiquan"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,288 +292,249 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 7 篇博客。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/Java-注解那些事儿/" itemprop="url">
-              
-                <span itemprop="name">Java 注解那些事儿</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:46:19+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/" itemprop="url">
-              
-                <span itemprop="name">浅谈Retrofit封装-让框架更加简洁易用</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:45:47+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/" itemprop="url">
-              
-                <span itemprop="name">RefreshLayout让你半小时以内完成一个列表界面</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:45:32+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/android生成分享长图并且添加全图水印/" itemprop="url">
-              
-                <span itemprop="name">android生成分享长图并且添加全图水印</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:44:50+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/12/LoginUtil一句代码实现各种登录验证前置操作/" itemprop="url">
-              
-                <span itemprop="name">LoginUtil一句代码实现各种登录验证前置操作</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-12T17:47:42+08:00"
-              content="2017-07-12" >
-          07-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/12/Support-Annotations注解介绍以及自定义注解代替枚举/" itemprop="url">
-              
-                <span itemprop="name">Support Annotations注解介绍以及自定义注解代替枚举</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-12T17:46:33+08:00"
-              content="2017-07-12" >
-          07-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/11/告别onActivityResult-，用代理实现Rx方式获取startActivityForResult结果/" itemprop="url">
-              
-                <span itemprop="name">告别onActivityResult ，用代理实现Rx方式获取startActivityForResult结果</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-11T18:04:19+08:00"
-              content="2017-07-11" >
-          07-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.gengqiquan.com/2017/07/13/android生成分享长图并且添加全图水印/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gengqiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gengqiquan.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gengqiquan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">android生成分享长图并且添加全图水印</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-13T13:44:50+08:00">
+                2017-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/13/android生成分享长图并且添加全图水印/" class="leancloud_visitors" data-flag-title="android生成分享长图并且添加全图水印">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  852
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>领导最近觉得携程的截屏生成长图分享效果比较好，所以我们也加了个；产品觉得分享出去的长图需要加公司品牌水印，于是我们也加了个；嗯，事件起因就是这样。<br>长图一般是ScrollView和ListView。<br>我们需要取得这两个控件的完整显示的图片。原理很简单，搞一张和控件长宽一致的画布（就是创建一个高宽相等的bitmap）。然后调用控件的draw方法把自己画到画布上去。</p>
+<a id="more"></a>
+<p>分别贴出两个控件的长图获取方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* 截取scrollview的屏幕</div><div class="line">**/</div><div class="line">public static Bitmap getScrollViewBitmap(ScrollView scrollView) &#123;</div><div class="line">int h = 0;</div><div class="line">Bitmap bitmap;</div><div class="line">for (int i = 0; i &lt; scrollView.getChildCount(); i++) &#123;</div><div class="line">h += scrollView.getChildAt(i).getHeight();</div><div class="line">&#125;</div><div class="line">// 创建对应大小的bitmap</div><div class="line"></div><div class="line">bitmap = Bitmap.createBitmap(ScreenUtils.getScreenWidth(scrollView.getContext()), h,</div><div class="line">Bitmap.Config.ARGB_4444);</div><div class="line">final Canvas canvas = new Canvas(bitmap);</div><div class="line">canvas.drawColor(Color.parseColor(&quot;#f2f7fa&quot;));</div><div class="line">scrollView.draw(canvas);</div><div class="line">return bitmap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* 截图listview</div><div class="line">**/</div><div class="line">public static Bitmap getListViewBitmap(ListView listView, String picpath) &#123;</div><div class="line">int h = 0;</div><div class="line">Bitmap bitmap;</div><div class="line">// 获取listView实际高度</div><div class="line">for (int i = 0; i &lt; listView.getChildCount(); i++) &#123;</div><div class="line">h += listView.getChildAt(i).getHeight();</div><div class="line">&#125;</div><div class="line">listView.getHeight());</div><div class="line">// 创建对应大小的bitmap</div><div class="line">bitmap = Bitmap.createBitmap(listView.getWidth(), h,</div><div class="line">Bitmap.Config.RGB_565);</div><div class="line">final Canvas canvas = new Canvas(bitmap);</div><div class="line">canvas.drawColor(Color.WHITE);</div><div class="line">listView.draw(canvas);</div><div class="line">// 测试输出</div><div class="line">FileOutputStream out = null;</div><div class="line">try &#123;</div><div class="line">out = new FileOutputStream(picpath);</div><div class="line">&#125; catch (FileNotFoundException e) &#123;</div><div class="line">e.printStackTrace();</div><div class="line">&#125;</div><div class="line">try &#123;</div><div class="line">if (null != out) &#123;</div><div class="line">bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);</div><div class="line">out.flush();</div><div class="line">out.close();</div><div class="line">&#125;</div><div class="line">&#125; catch (IOException e) &#123;</div><div class="line">&#125;</div><div class="line">return bitmap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>奉送个获取具体view的显示图的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/**</div><div class="line">* 生成某个view的图片</div><div class="line">*</div><div class="line">* @author gengqiquan</div><div class="line">* @date 2017/3/20 上午10:34</div><div class="line">*/</div><div class="line">public static Bitmap getViewDrawingCacheBitmap(View view) &#123;</div><div class="line">view = view.getRootView();</div><div class="line">if (!view.isDrawingCacheEnabled()) &#123;</div><div class="line">view.setDrawingCacheEnabled(true);</div><div class="line">&#125;</div><div class="line">view.destroyDrawingCache();</div><div class="line">view.buildDrawingCache();</div><div class="line">Bitmap bm = view.getDrawingCache();</div><div class="line">view.setDrawingCacheEnabled(false);</div><div class="line">return bm;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再奉送个生成某个LinearLayout图片的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* 生成某个LinearLayout的图片</div><div class="line">*</div><div class="line">* @author gengqiquan</div><div class="line">* @date 2017/3/20 上午10:34</div><div class="line">*/</div><div class="line">public static Bitmap getLinearLayoutBitmap(LinearLayout linearLayout) &#123;</div><div class="line">int h = 0;</div><div class="line">// 获取LinearLayout实际高度</div><div class="line">for (int i = 0; i &lt; linearLayout.getChildCount(); i++) &#123;</div><div class="line">linearLayout.getChildAt(i).measure(0, 0);</div><div class="line">h += linearLayout.getChildAt(i).getMeasuredHeight();</div><div class="line">&#125;</div><div class="line">linearLayout.measure(0, 0);</div><div class="line">// 创建对应大小的bitmap</div><div class="line">Bitmap bitmap = Bitmap.createBitmap(linearLayout.getMeasuredWidth(), h,</div><div class="line">Bitmap.Config.RGB_565);</div><div class="line">final Canvas canvas = new Canvas(bitmap);</div><div class="line">canvas.drawColor(Color.WHITE);</div><div class="line">linearLayout.draw(canvas);</div><div class="line">return bitmap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>完了产品肯定会让你在下面或者上面加上公司的logo图片的，嗯。好人做到低，再送个拼接图片的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">*拼接图片</div><div class="line">* @param first 分享的长图</div><div class="line">* @param second  公司logo图</div><div class="line">*@author gengqiquan</div><div class="line">*@date 2017/3/25 下午4:56</div><div class="line">*/</div><div class="line">public static Bitmap add2Bitmap(Bitmap first, Bitmap second) &#123;</div><div class="line">float scale = ((float) first.getWidth()) / second.getWidth();</div><div class="line">second = ImageUtil.scaleImg(second, scale);</div><div class="line">int width = first.getWidth();</div><div class="line">int height = first.getHeight() + second.getHeight();</div><div class="line">Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);</div><div class="line">Canvas canvas = new Canvas(result);</div><div class="line">canvas.drawBitmap(first, 0, 0, null);</div><div class="line">canvas.drawBitmap(second, 0, first.getHeight(), null);</div><div class="line">return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再来个添加全图水印的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* @param first 原始图</div><div class="line">* @param mark  水印图</div><div class="line">* @author gengqiquan</div><div class="line">* @date 2017/3/25 下午4:58</div><div class="line">*/</div><div class="line">public static Bitmap waterMark(Bitmap first, Bitmap mark) &#123;</div><div class="line">float scale = ((float) first.getWidth()) / mark.getWidth();</div><div class="line">mark = ImageUtil.scaleImg(mark, scale);</div><div class="line">int height = first.getHeight();</div><div class="line">Canvas canvas = new Canvas(first);</div><div class="line">int h = 0;</div><div class="line">while (h &lt; height + mark.getHeight()) &#123;</div><div class="line">canvas.drawBitmap(mark, 0, h, null);</div><div class="line">h = h + mark.getHeight();</div><div class="line">&#125;</div><div class="line">return first;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>坑爹的chrome有bug。一在这个位置点换行接向上按键就崩溃。写个博客崩溃了七八次。最近真的是运气不好。</p>
+<p>其实我是想说：由于最近被注入了个对象，依赖性比较强，所以这段时间很少写博客了，后面补上。</p>
+<p>有什么建议的可以留言喔</p>
+<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
+<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.png" alt="gengqiquan WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="gengqiquan Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/12/LoginUtil一句代码实现各种登录验证前置操作/" rel="next" title="LoginUtil一句代码实现各种登录验证前置操作">
+                <i class="fa fa-chevron-left"></i> LoginUtil一句代码实现各种登录验证前置操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/" rel="prev" title="RefreshLayout让你半小时以内完成一个列表界面">
+                RefreshLayout让你半小时以内完成一个列表界面 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -580,6 +542,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -827,11 +793,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   

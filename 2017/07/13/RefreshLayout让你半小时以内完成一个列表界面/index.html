@@ -106,15 +106,20 @@
 
 
 
-<meta name="description" content="陌上人如玉，公子世无双">
-<meta property="og:type" content="website">
-<meta property="og:title" content="gengqiquan的博客">
-<meta property="og:url" content="http://www.gengqiquan.com/archives/2017/07/index.html">
+<meta name="description" content="之前写过一篇博文 如何写一个通用的列表控件讲到绝大多数项目总都会有各种形形色色的列表界面，但其实这些界面的区别就在于列表子项的布局不同和点击事件的响应不同而已，然而每次有个新的列表界面从适配器到Activity都需要写很多代码。作为一个懒人， 一直想把这些重复的工作给去掉，那篇博文提供了封装思路，许多伙伴要求能形成库方便大家使用。这几天得闲，就完成大家这个心愿">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RefreshLayout让你半小时以内完成一个列表界面">
+<meta property="og:url" content="http://www.gengqiquan.com/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/index.html">
 <meta property="og:site_name" content="gengqiquan的博客">
-<meta property="og:description" content="陌上人如玉，公子世无双">
+<meta property="og:description" content="之前写过一篇博文 如何写一个通用的列表控件讲到绝大多数项目总都会有各种形形色色的列表界面，但其实这些界面的区别就在于列表子项的布局不同和点击事件的响应不同而已，然而每次有个新的列表界面从适配器到Activity都需要写很多代码。作为一个懒人， 一直想把这些重复的工作给去掉，那篇博文提供了封装思路，许多伙伴要求能形成库方便大家使用。这几天得闲，就完成大家这个心愿">
+<meta property="og:image" content="http://img.blog.csdn.net/20161008152441933">
+<meta property="og:image" content="http://img.blog.csdn.net/20161008152457761">
+<meta property="og:image" content="http://img.blog.csdn.net/20161008152510715">
+<meta property="og:updated_time" content="2017-07-13T05:51:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gengqiquan的博客">
-<meta name="twitter:description" content="陌上人如玉，公子世无双">
+<meta name="twitter:title" content="RefreshLayout让你半小时以内完成一个列表界面">
+<meta name="twitter:description" content="之前写过一篇博文 如何写一个通用的列表控件讲到绝大多数项目总都会有各种形形色色的列表界面，但其实这些界面的区别就在于列表子项的布局不同和点击事件的响应不同而已，然而每次有个新的列表界面从适配器到Activity都需要写很多代码。作为一个懒人， 一直想把这些重复的工作给去掉，那篇博文提供了封装思路，许多伙伴要求能形成库方便大家使用。这几天得闲，就完成大家这个心愿">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20161008152441933">
 
 
 
@@ -142,13 +147,13 @@
 
 
 
-  <link rel="canonical" href="http://www.gengqiquan.com/archives/2017/07/"/>
+  <link rel="canonical" href="http://www.gengqiquan.com/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/"/>
 
 
 
 
 
-  <title>归档 | gengqiquan的博客</title>
+  <title>RefreshLayout让你半小时以内完成一个列表界面 | gengqiquan的博客</title>
   
 
 
@@ -173,7 +178,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 <a href="https://github.com/gengqiquan"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,288 +296,272 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 7 篇博客。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
-
-      
-      
-      
-
-      
-        
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
-        </div>
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/Java-注解那些事儿/" itemprop="url">
-              
-                <span itemprop="name">Java 注解那些事儿</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:46:19+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/" itemprop="url">
-              
-                <span itemprop="name">浅谈Retrofit封装-让框架更加简洁易用</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:45:47+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/" itemprop="url">
-              
-                <span itemprop="name">RefreshLayout让你半小时以内完成一个列表界面</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:45:32+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/13/android生成分享长图并且添加全图水印/" itemprop="url">
-              
-                <span itemprop="name">android生成分享长图并且添加全图水印</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-13T13:44:50+08:00"
-              content="2017-07-13" >
-          07-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/12/LoginUtil一句代码实现各种登录验证前置操作/" itemprop="url">
-              
-                <span itemprop="name">LoginUtil一句代码实现各种登录验证前置操作</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-12T17:47:42+08:00"
-              content="2017-07-12" >
-          07-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/12/Support-Annotations注解介绍以及自定义注解代替枚举/" itemprop="url">
-              
-                <span itemprop="name">Support Annotations注解介绍以及自定义注解代替枚举</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-12T17:46:33+08:00"
-              content="2017-07-12" >
-          07-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/2017/07/11/告别onActivityResult-，用代理实现Rx方式获取startActivityForResult结果/" itemprop="url">
-              
-                <span itemprop="name">告别onActivityResult ，用代理实现Rx方式获取startActivityForResult结果</span>
-              
-            </a>
-        
-      </h3>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-11T18:04:19+08:00"
-              content="2017-07-11" >
-          07-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
 
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.gengqiquan.com/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gengqiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gengqiquan.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gengqiquan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">RefreshLayout让你半小时以内完成一个列表界面</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-13T13:45:32+08:00">
+                2017-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/" class="leancloud_visitors" data-flag-title="RefreshLayout让你半小时以内完成一个列表界面">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  806
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前写过一篇博文<a href="http://blog.csdn.net/gengqiquan/article/details/52757393" target="_blank" rel="external"> 如何写一个通用的列表控件</a>讲到绝大多数项目总都会有各种形形色色的列表界面，但其实这些界面的区别就在于列表子项的布局不同和点击事件的响应不同而已，然而每次有个新的列表界面从适配器到Activity都需要写很多代码。作为一个懒人， 一直想把这些重复的工作给去掉，那篇博文提供了封装思路，许多伙伴要求能形成库方便大家使用。这几天得闲，就完成大家这个心愿</p>
+<a id="more"></a>
+<p>效果如图<br><img src="http://img.blog.csdn.net/20161008152441933" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161008152457761" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161008152510715" alt="这里写图片描述"></p>
+<p>默认提供一个SampleRefreshLayout。提供一些默认的样式<br>可以继承RefreshLayout抽象类实现自己的样式</p>
+<p>完整的示例项目地址<a href="https://github.com/gengqiquan/RefreshLayout" target="_blank" rel="external">https://github.com/gengqiquan/RefreshLayout</a> </p>
+<p>使用</p>
+<p>xml</p>
+<p><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#99;&#111;&#109;&#46;&#103;&#101;&#x6e;&#103;&#113;&#x69;&#x71;&#x75;&#x61;&#110;&#x2e;&#x6c;&#x61;&#x79;&#x6f;&#117;&#x74;&#46;&#x53;&#97;&#109;&#112;&#108;&#101;&#82;&#x65;&#102;&#x72;&#101;&#115;&#x68;&#76;&#97;&#121;&#111;&#x75;&#x74;&#10;&#x61;&#x6e;&#x64;&#x72;&#x6f;&#105;&#100;&#58;&#x69;&#100;&#61;&#x22;&#64;&#43;&#x69;&#100;&#x2f;&#x72;&#101;&#102;&#x72;&#101;&#x73;&#104;&#34;&#10;&#97;&#110;&#100;&#x72;&#x6f;&#105;&#100;&#x3a;&#x6c;&#97;&#121;&#111;&#117;&#116;&#95;&#x77;&#x69;&#x64;&#116;&#104;&#61;&#x22;&#109;&#97;&#x74;&#99;&#104;&#x5f;&#x70;&#97;&#x72;&#101;&#x6e;&#116;&#34;&#xa;&#97;&#110;&#x64;&#114;&#111;&#x69;&#x64;&#x3a;&#108;&#97;&#x79;&#111;&#117;&#x74;&#95;&#x68;&#x65;&#105;&#103;&#104;&#116;&#x3d;&#34;&#109;&#97;&#x74;&#x63;&#104;&#95;&#112;&#x61;&#x72;&#x65;&#x6e;&#x74;&#34;">&#99;&#111;&#109;&#46;&#103;&#101;&#x6e;&#103;&#113;&#x69;&#x71;&#x75;&#x61;&#110;&#x2e;&#x6c;&#x61;&#x79;&#x6f;&#117;&#x74;&#46;&#x53;&#97;&#109;&#112;&#108;&#101;&#82;&#x65;&#102;&#x72;&#101;&#115;&#x68;&#76;&#97;&#121;&#111;&#x75;&#x74;&#10;&#x61;&#x6e;&#x64;&#x72;&#x6f;&#105;&#100;&#58;&#x69;&#100;&#61;&#x22;&#64;&#43;&#x69;&#100;&#x2f;&#x72;&#101;&#102;&#x72;&#101;&#x73;&#104;&#34;&#10;&#97;&#110;&#100;&#x72;&#x6f;&#105;&#100;&#x3a;&#x6c;&#97;&#121;&#111;&#117;&#116;&#95;&#x77;&#x69;&#x64;&#116;&#104;&#61;&#x22;&#109;&#97;&#x74;&#99;&#104;&#x5f;&#x70;&#97;&#x72;&#101;&#x6e;&#116;&#34;&#xa;&#97;&#110;&#x64;&#114;&#111;&#x69;&#x64;&#x3a;&#108;&#97;&#x79;&#111;&#117;&#x74;&#95;&#x68;&#x65;&#105;&#103;&#104;&#116;&#x3d;&#34;&#109;&#97;&#x74;&#x63;&#104;&#95;&#112;&#x61;&#x72;&#x65;&#x6e;&#x74;&#34;</a></p>
+<p>activity初始化</p>
+<p>refresh = (SampleRefreshLayout) findViewById(R.id.refresh);<br>//SampleRefreshLayout特有的方法需放在链式调用的前面<br>refresh .noDataLable(“暂时没有订单数据”)//无数据文本<br>.noDataImg(R.drawable.message_default)//无数据图片<br>.pageCount(20)//分页数量<br>.refreshEnable(true)//允许手动刷新<br>.loadMoreEnable(true)//允许分页<br>.showTopView(true)//显示一键回到顶部按钮<br>.adapter(new SBAdapter<string>(this)<br>.layout(android.R.layout.simple_list_item_1)//item布局<br>.bindViewData(new Converter<string>() {<br>@Override<br>public void convert(Holder holder, String item) {//数据绑定<br>holder.setText(android.R.id.text1, item);<br>}<br>}))//通用适配器<br>.refresh(new RefreshListener() {//刷新回调<br>@Override<br>public void onRefresh() {<br>load(true);<br>}</string></string></p>
+<p>})<br>.loadMore(new LoadMoreListener() {//加载更多回调<br>@Override<br>public void LoadMore() {<br>load(false);<br>}<br>})<br>.doRefresh();//主动调用刷新加载初始数据</p>
+<p>lambda写法</p>
+<p>@Override<br>protected void onCreate(Bundle savedInstanceState) {<br>super.onCreate(savedInstanceState);<br>setContentView(R.layout.activity_main);<br>refresh = (SampleRefreshLayout) findViewById(R.id.refresh);<br>//SampleRefreshLayout特有的方法需放在链式调用的前面<br>refresh .noDataLable(“暂时没有订单数据”)<br>.noDataImg(R.drawable.message_default)<br>.pageCount(20)<br>.refreshEnable(true)<br>.loadMoreEnable(true)<br>.showTopView(true)<br>.adapter(new SBAdapter<string>(this)<br>.layout(android.R.layout.simple_list_item_1)<br>.bindViewData(this::bindViewData))<br>.refresh(()-&gt;load(true))<br>.loadMore(()-&gt; load(false))<br>.doRefresh();</string></p>
+<p>}<br>public void bindViewData(Holder holder, String item) {<br>holder.setText(android.R.id.text1, item);<br>}</p>
+<p>load()请求</p>
+<p>private void load(final boolean isrefresh) {<br>new Thread(new Runnable() {<br>@Override<br>public void run() {<br>Looper.prepare();<br>try {<br>if (isrefresh)<br>Thread.sleep(2000);<br>else<br>Thread.sleep(500);<br>} catch (Exception e) {</p>
+<p>}<br>runOnUiThread(new Runnable() {<br>@Override<br>public void run() {<br>List<string> list = new ArrayList();<br>for (int i = 0; i &lt; 20; i++) {<br>list.add(“           “ + i);<br>}<br>if (isrefresh)<br>refresh.refreshComplete(list);<br>else<br>refresh.loadMoreComplete(list);<br>//请求失败调用 refresh.loadFailure();<br>}<br>});</string></p>
+<p>}<br>}).start();<br>}</p>
+<p>继承RefreshLayout实现自己布局样式</p>
+<p>public class MyRefreshLayout extends RefreshLayout {</p>
+<p>//添加自定义加载更多界面<br>public SampleRefreshLayout FooterLayout(FooterLayout layout) {<br>mLoadMoreView = layout;<br>return this;<br>}</p>
+<p>//添加自定义无数据界面，需实现NoDataLayout接口<br>@Override<br>NoDataLayout onCreateNoDataView() {<br>return new SimpleNoDataLayout(mContext);<br>}<br>//添加自定义加载更多布局，需实现FooterLayout接口<br>@Override<br>FooterLayout onCreateLoadMoreView() {<br>return mLoadMoreView;<br>}<br>//添加自定义回到顶部按钮布局<br>@Override<br>View onCreateTopView() {<br>return mTopView;<br>}<br>//添加自定义请求失败布局<br>@Override<br>View onCreateFailureView() {<br>return mFailureView;<br>}</p>
+<p>public SampleRefreshLayout(Context context) {<br>this(context, null);<br>}</p>
+<p>public SampleRefreshLayout(Context context, AttributeSet attrs) {<br>this(context, attrs, 0);<br>}</p>
+<p>public SampleRefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {<br>super(context, attrs, defStyleAttr);<br>build();//记得这一句<br>}</p>
+<p>依赖添加</p>
+<p>maven</p>
+<dependency><br><groupid>com.gengqiquan.refresh-layout</groupid><br><artifactid>layout</artifactid><br><version>1.0.1</version><br><type>pom</type><br></dependency>
+
+<p>gralde</p>
+<p>compile ‘com.gengqiquan.refresh-layout:layout:1.0.1’</p>
+<p>lvy</p>
+<dependency org="com.gengqiquan.refresh-layout" name="layout" rev="1.0.1"><br><artifact name="layout" ext="pom"></artifact><br></dependency>
+
+
+
+
+<p>请多多star</p>
+<p>有什么建议的可以留言喔</p>
+<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
+<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.png" alt="gengqiquan WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="gengqiquan Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/13/android生成分享长图并且添加全图水印/" rel="next" title="android生成分享长图并且添加全图水印">
+                <i class="fa fa-chevron-left"></i> android生成分享长图并且添加全图水印
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/" rel="prev" title="浅谈Retrofit封装-让框架更加简洁易用">
+                浅谈Retrofit封装-让框架更加简洁易用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -580,6 +569,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -827,11 +820,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   

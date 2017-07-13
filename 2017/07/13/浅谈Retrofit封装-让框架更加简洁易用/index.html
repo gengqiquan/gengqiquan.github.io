@@ -1,125 +1,414 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>gengqiquan的博客</title>
+<!doctype html>
+
+
+
   
-  <link href="/atom.xml" rel="self"/>
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
   
-  <link href="http://www.gengqiquan.com/"/>
-  <updated>2017-07-13T05:51:41.000Z</updated>
-  <id>http://www.gengqiquan.com/</id>
   
-  <author>
-    <name>gengqiquan</name>
     
-  </author>
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
   
-  <generator uri="http://hexo.io/">Hexo</generator>
   
-  <entry>
-    <title>Java 注解那些事儿</title>
-    <link href="http://www.gengqiquan.com/2017/07/13/Java-%E6%B3%A8%E8%A7%A3%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"/>
-    <id>http://www.gengqiquan.com/2017/07/13/Java-注解那些事儿/</id>
-    <published>2017-07-13T05:46:19.000Z</published>
-    <updated>2017-07-13T05:51:41.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今日无事，应狒狒之邀，写一篇详细的关于注解的文章。</p>
-<h3 id="注解一般有如下几种作用"><a href="#注解一般有如下几种作用" class="headerlink" title="注解一般有如下几种作用"></a>注解一般有如下几种作用</h3><ul>
-<li>生成文档，这是大家最常见的也是Java最早提供的注解功能。比如看源码的时候方法注释上面的 @see @param @return 等等；</li>
-<li>减少配置，可以进行运行时动态处理，得到注解信息，实现代替配置文件的功能；也可以通过插件进行编译时处理，以解决解析注解而导致的反射性能消耗；</li>
-<li>减少重复工作，比如第三方框架ButterKnife等，通过注解@BindView减少对findViewById的调用；</li>
-<li>限定作用域，例如在编译时进行格式检查，如@override 放在方法前，如果你这个同名方法并不是覆盖了超类方法，则编译时就能检查出，用注解替代枚举等等；安卓也提供了一些参数注解来限定资源参数的传入，后面我们会讲到；</li>
-</ul>
-<a id="more"></a>
-<p>注解的优点：方便，简洁，配置信息和 Java 代码放在一起，有助于增强程序的内聚性。</p>
-<p>注解的缺点：分散到各个class文件中，所以很不方便维护，比如一些路由注解，打在activity上，尤其是支持多路径的时候，找个错能让你疯。</p>
-<p>总体来说注解对于编码带来的好处要多于坏处的，尤其是在是恰当的使用的时候，完全可以减少或者避免他所带来的缺点的。</p>
-<p>了解了上面这些之后我们就来看看怎么用好注解这个利器吧。</p>
-<p>内容可能比较多，视情况分篇写。免得您看的头疼眼花从了解到放弃。</p>
-<p>Android大部分用的Java，我们只谈Java注解和怎么自定义适合自己的注解</p>
-<h3 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h3><p>Java语言提供几种基本的元注解，了解并掌握它们之后我们才可以做到得心应手的自定义自己需要的注解。</p>
-<p>Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它 annotation类型作说明。</p>
-<ul>
-<li>@Target</li>
-<li>@Retention</li>
-<li>@Documented</li>
-<li>@Inherited</li>
-</ul>
-<p>@Target指定了注解对象使用范围，也就是限制了被@Target修饰的注解的可以放在什么地方上面，可以修饰：packages、types（类、接口、枚举、Annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）</p>
-<p>@Target取值(ElementType)有：</p>
-<ul>
-<li>CONSTRUCTOR:用于描述构造器</li>
-<li>FIELD:用于描述域</li>
-<li>LOCAL_VARIABLE:用于描述局部变量</li>
-<li>METHOD:用于描述方法</li>
-<li>PACKAGE:用于描述包</li>
-<li>PARAMETER:用于描述参数</li>
-<li>TYPE:用于描述类、接口(包括注解类型) 或enum声明</li>
-</ul>
-<p>比如我们见到最多的系统方法注解@Override</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(ElementType.METHOD)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>就通过@Target指定了该注解只作用于method，也就是类方法。</p>
-<p>@Retention指定了注解对象作用的生命周期，比如有些注解是在编码阶段进行合法化检查的，只需要在源码里保留就行。无需编译进dex文件中。再比如有些注解是需要运行时通过反射获取的，就需要一直保留着。</p>
-<p>@Retention取值（RetentionPoicy）有：</p>
-<ul>
-<li>SOURCE:在源文件中有效</li>
-<li>CLASS:在class文件中有效</li>
-<li>RUNTIME:在运行时有效</li>
-</ul>
-<p>我们上面的@Override例子里的@Retention(RetentionPolicy.SOURCE)就是表示@Retention(RetentionPolicy.SOURCE)注解只在源码阶段有效。</p>
-<p>@Documented是一个标记注解，它代表着此注解会被javadoc等文档生成工具提取到文档内。在doc文档中的内容会因为此注解的信息内容不同而不同。@Documented没有属性成员。</p>
-<p>@Inherited也是一个标记注解，它声明了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的注解类型被作用于一个class，则这个注解将被作用于该class的所有子类。</p>
-<p>需要注意的是@Inherited注解只会被标注过的class的子类所继承。类并不会从它所实现的接口继承该注解，方法也不会从它所重载的方法继承该注解。</p>
-<p>而且当@Inherited标注的注解的Retention属性值是RetentionPolicy.RUNTIME时，反射API会增强这种继承性。也就是说当我们使用java.lang.reflect去查询一个标注了被@Inherited修饰的注解所标注时，反射代码会去检查类和其父类，直到指定的注解类型被发现，或者到达类继承结构的顶层。</p>
-<p>以上就是Java提供的元注解的介绍了，接下来我们看自定义注解</p>
-<h3 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h3><p>@interface用来声明一个注解，其中的每一个方法实际上是声明了一个配置参数。方法的名称就是参数的名称，返回值类型就是参数的类型（返回值类型只能是基本类型、类、String、enum）。可以通过default来声明参数的默认值。<br>使用@interface自定义注解时，会自动继承java.lang.annotation.Annotation接口，编译程序会自动完成其他细节。<br>定义注解时，不能继承其他的注解或接口。</p>
-<p>自定义注解格式为</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">　　<span class="keyword">public</span> <span class="meta">@interface</span> 注解名 &#123;定义体&#125;</div></pre></td></tr></table></figure>
-<p>注解的参数只支持以下数据类型</p>
-<ul>
-<li>所有基本数据类型（int,float,boolean,byte,double,char,long,short)</li>
-<li>String类型</li>
-<li>Class类型</li>
-<li>enum类型</li>
-<li>Annotation类型</li>
-<li>以上所有类型的数组</li>
-</ul>
-<p>需要注意的点</p>
-<ul>
-<li>注解的参数只能用public或默认(default)这两个访问修饰符</li>
-<li>如果只有一个参数成员,最好把参数名称设为value后加小括号</li>
-<li>注解元素必须有确定的值，要么在定义注解的默认值中指定，要么在使用注解时指定，非基本类型的注解元素的值不可为null。因此, 使用空字符串或0作为默认值是一种常用的做法。这个约束使得处理器很难表现一个元素的存在或缺失的状态，因为每个注解的声明中，所有元素都存在，并且都具有相应的值，为了绕开这个约束，我们只能定义一些特殊的值，例如空字符串或者负数，一次表示某个元素不存在（这段话抄的）</li>
-</ul>
-<p>例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(ElementType.FIELD)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Documented</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> BindView &#123;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> -1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>以上就是自定义注解的要点了。</p>
-<p>下一篇：Android提供的常用注解以及自定义限制作用注解<br>下下一篇：怎么定义以及代码解析运行时注解</p>
-<p>有什么建议的可以留言喔</p>
-<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
-<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今日无事，应狒狒之邀，写一篇详细的关于注解的文章。&lt;/p&gt;
-&lt;h3 id=&quot;注解一般有如下几种作用&quot;&gt;&lt;a href=&quot;#注解一般有如下几种作用&quot; class=&quot;headerlink&quot; title=&quot;注解一般有如下几种作用&quot;&gt;&lt;/a&gt;注解一般有如下几种作用&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;生成文档，这是大家最常见的也是Java最早提供的注解功能。比如看源码的时候方法注释上面的 @see @param @return 等等；&lt;/li&gt;
-&lt;li&gt;减少配置，可以进行运行时动态处理，得到注解信息，实现代替配置文件的功能；也可以通过插件进行编译时处理，以解决解析注解而导致的反射性能消耗；&lt;/li&gt;
-&lt;li&gt;减少重复工作，比如第三方框架ButterKnife等，通过注解@BindView减少对findViewById的调用；&lt;/li&gt;
-&lt;li&gt;限定作用域，例如在编译时进行格式检查，如@override 放在方法前，如果你这个同名方法并不是覆盖了超类方法，则编译时就能检查出，用注解替代枚举等等；安卓也提供了一些参数注解来限定资源参数的传入，后面我们会讲到；&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-  </entry>
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title>浅谈Retrofit封装-让框架更加简洁易用</title>
-    <link href="http://www.gengqiquan.com/2017/07/13/%E6%B5%85%E8%B0%88Retrofit%E5%B0%81%E8%A3%85-%E8%AE%A9%E6%A1%86%E6%9E%B6%E6%9B%B4%E5%8A%A0%E7%AE%80%E6%B4%81%E6%98%93%E7%94%A8/"/>
-    <id>http://www.gengqiquan.com/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/</id>
-    <published>2017-07-13T05:45:47.000Z</published>
-    <updated>2017-07-13T05:49:18.000Z</updated>
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
     
-    <content type="html"><![CDATA[<p>不知不觉在在这家公司快三个月了，刚接手项目的时候是真的被里面的代码恶心到了，网络请求用的原生的httpURLconnection。这本来什么，关键是根本就没有进行任何封装。activity里面充斥着大量的handler，要找个oncreated()函数先得把类拉到一半，那种感觉岂止酸爽。由于项目周期紧张。没时间去大规模的重构，新框架只能在新功能里写。采用了retrofit，初期做了简单的封装，断断续续一段时间的优化整理。现在分享出来给大家。</p>
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="gengqiquan的博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="不知不觉在在这家公司快三个月了，刚接手项目的时候是真的被里面的代码恶心到了，网络请求用的原生的httpURLconnection。这本来什么，关键是根本就没有进行任何封装。activity里面充斥着大量的handler，要找个oncreated()函数先得把类拉到一半，那种感觉岂止酸爽。由于项目周期紧张。没时间去大规模的重构，新框架只能在新功能里写。采用了retrofit，初期做了简单的封装，断断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈Retrofit封装-让框架更加简洁易用">
+<meta property="og:url" content="http://www.gengqiquan.com/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/index.html">
+<meta property="og:site_name" content="gengqiquan的博客">
+<meta property="og:description" content="不知不觉在在这家公司快三个月了，刚接手项目的时候是真的被里面的代码恶心到了，网络请求用的原生的httpURLconnection。这本来什么，关键是根本就没有进行任何封装。activity里面充斥着大量的handler，要找个oncreated()函数先得把类拉到一半，那种感觉岂止酸爽。由于项目周期紧张。没时间去大规模的重构，新框架只能在新功能里写。采用了retrofit，初期做了简单的封装，断断">
+<meta property="og:updated_time" content="2017-07-13T05:49:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈Retrofit封装-让框架更加简洁易用">
+<meta name="twitter:description" content="不知不觉在在这家公司快三个月了，刚接手项目的时候是真的被里面的代码恶心到了，网络请求用的原生的httpURLconnection。这本来什么，关键是根本就没有进行任何封装。activity里面充斥着大量的handler，要找个oncreated()函数先得把类拉到一半，那种感觉岂止酸爽。由于项目周期紧张。没时间去大规模的重构，新框架只能在新功能里写。采用了retrofit，初期做了简单的封装，断断">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.gengqiquan.com/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/"/>
+
+
+
+
+
+  <title>浅谈Retrofit封装-让框架更加简洁易用 | gengqiquan的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+<a href="https://github.com/gengqiquan"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">gengqiquan的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.gengqiquan.com/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="gengqiquan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/gengqiquan.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="gengqiquan的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">浅谈Retrofit封装-让框架更加简洁易用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-13T13:45:47+08:00">
+                2017-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/13/浅谈Retrofit封装-让框架更加简洁易用/" class="leancloud_visitors" data-flag-title="浅谈Retrofit封装-让框架更加简洁易用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  4,475
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  22
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>不知不觉在在这家公司快三个月了，刚接手项目的时候是真的被里面的代码恶心到了，网络请求用的原生的httpURLconnection。这本来什么，关键是根本就没有进行任何封装。activity里面充斥着大量的handler，要找个oncreated()函数先得把类拉到一半，那种感觉岂止酸爽。由于项目周期紧张。没时间去大规模的重构，新框架只能在新功能里写。采用了retrofit，初期做了简单的封装，断断续续一段时间的优化整理。现在分享出来给大家。</p>
 <a id="more"></a>
 <p>为了方便大家，会形成依赖库。引入和调用方式请看文章底部的github文档<br>本次封装需要做到的</p>
 <p>1支持异步请求统一回调<br>2参数可配置<br>3链式调用<br>4支持基本get和post封装<br>5支持rxjava返回<br>6支持一个接口Service 对应一种请求类型，而不是每个API都需要去定义一个接口方法<br>7支持取消单个请求<br>8支持请求打标签，退出页面时取消当前页面所有请求<br>9支持动态配置缓存，缓存与具体的请求接口绑定，<br>10支持追加统一参数，登录信息token、设备号等<br>11支持接口版本号配置<br>12流式下载文件，取消下载请求</p>
@@ -158,294 +447,872 @@
 <p>完整的示例项目地址<a href="https://github.com/gengqiquan/HttpUtil.git" target="_blank" rel="external">https://github.com/gengqiquan/HttpUtil.git</a></p>
 <p>有什么建议的可以留言喔</p>
 <p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;不知不觉在在这家公司快三个月了，刚接手项目的时候是真的被里面的代码恶心到了，网络请求用的原生的httpURLconnection。这本来什么，关键是根本就没有进行任何封装。activity里面充斥着大量的handler，要找个oncreated()函数先得把类拉到一半，那种感觉岂止酸爽。由于项目周期紧张。没时间去大规模的重构，新框架只能在新功能里写。采用了retrofit，初期做了简单的封装，断断续续一段时间的优化整理。现在分享出来给大家。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>RefreshLayout让你半小时以内完成一个列表界面</title>
-    <link href="http://www.gengqiquan.com/2017/07/13/RefreshLayout%E8%AE%A9%E4%BD%A0%E5%8D%8A%E5%B0%8F%E6%97%B6%E4%BB%A5%E5%86%85%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E7%95%8C%E9%9D%A2/"/>
-    <id>http://www.gengqiquan.com/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/</id>
-    <published>2017-07-13T05:45:32.000Z</published>
-    <updated>2017-07-13T05:51:20.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前写过一篇博文<a href="http://blog.csdn.net/gengqiquan/article/details/52757393" target="_blank" rel="external"> 如何写一个通用的列表控件</a>讲到绝大多数项目总都会有各种形形色色的列表界面，但其实这些界面的区别就在于列表子项的布局不同和点击事件的响应不同而已，然而每次有个新的列表界面从适配器到Activity都需要写很多代码。作为一个懒人， 一直想把这些重复的工作给去掉，那篇博文提供了封装思路，许多伙伴要求能形成库方便大家使用。这几天得闲，就完成大家这个心愿</p>
-<a id="more"></a>
-<p>效果如图<br><img src="http://img.blog.csdn.net/20161008152441933" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161008152457761" alt="这里写图片描述"><img src="http://img.blog.csdn.net/20161008152510715" alt="这里写图片描述"></p>
-<p>默认提供一个SampleRefreshLayout。提供一些默认的样式<br>可以继承RefreshLayout抽象类实现自己的样式</p>
-<p>完整的示例项目地址<a href="https://github.com/gengqiquan/RefreshLayout" target="_blank" rel="external">https://github.com/gengqiquan/RefreshLayout</a> </p>
-<p>使用</p>
-<p>xml</p>
-<p><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#99;&#111;&#109;&#46;&#103;&#101;&#x6e;&#103;&#113;&#x69;&#x71;&#x75;&#x61;&#110;&#x2e;&#x6c;&#x61;&#x79;&#x6f;&#117;&#x74;&#46;&#x53;&#97;&#109;&#112;&#108;&#101;&#82;&#x65;&#102;&#x72;&#101;&#115;&#x68;&#76;&#97;&#121;&#111;&#x75;&#x74;&#10;&#x61;&#x6e;&#x64;&#x72;&#x6f;&#105;&#100;&#58;&#x69;&#100;&#61;&#x22;&#64;&#43;&#x69;&#100;&#x2f;&#x72;&#101;&#102;&#x72;&#101;&#x73;&#104;&#34;&#10;&#97;&#110;&#100;&#x72;&#x6f;&#105;&#100;&#x3a;&#x6c;&#97;&#121;&#111;&#117;&#116;&#95;&#x77;&#x69;&#x64;&#116;&#104;&#61;&#x22;&#109;&#97;&#x74;&#99;&#104;&#x5f;&#x70;&#97;&#x72;&#101;&#x6e;&#116;&#34;&#xa;&#97;&#110;&#x64;&#114;&#111;&#x69;&#x64;&#x3a;&#108;&#97;&#x79;&#111;&#117;&#x74;&#95;&#x68;&#x65;&#105;&#103;&#104;&#116;&#x3d;&#34;&#109;&#97;&#x74;&#x63;&#104;&#95;&#112;&#x61;&#x72;&#x65;&#x6e;&#x74;&#34;">&#99;&#111;&#109;&#46;&#103;&#101;&#x6e;&#103;&#113;&#x69;&#x71;&#x75;&#x61;&#110;&#x2e;&#x6c;&#x61;&#x79;&#x6f;&#117;&#x74;&#46;&#x53;&#97;&#109;&#112;&#108;&#101;&#82;&#x65;&#102;&#x72;&#101;&#115;&#x68;&#76;&#97;&#121;&#111;&#x75;&#x74;&#10;&#x61;&#x6e;&#x64;&#x72;&#x6f;&#105;&#100;&#58;&#x69;&#100;&#61;&#x22;&#64;&#43;&#x69;&#100;&#x2f;&#x72;&#101;&#102;&#x72;&#101;&#x73;&#104;&#34;&#10;&#97;&#110;&#100;&#x72;&#x6f;&#105;&#100;&#x3a;&#x6c;&#97;&#121;&#111;&#117;&#116;&#95;&#x77;&#x69;&#x64;&#116;&#104;&#61;&#x22;&#109;&#97;&#x74;&#99;&#104;&#x5f;&#x70;&#97;&#x72;&#101;&#x6e;&#116;&#34;&#xa;&#97;&#110;&#x64;&#114;&#111;&#x69;&#x64;&#x3a;&#108;&#97;&#x79;&#111;&#117;&#x74;&#95;&#x68;&#x65;&#105;&#103;&#104;&#116;&#x3d;&#34;&#109;&#97;&#x74;&#x63;&#104;&#95;&#112;&#x61;&#x72;&#x65;&#x6e;&#x74;&#34;</a></p>
-<p>activity初始化</p>
-<p>refresh = (SampleRefreshLayout) findViewById(R.id.refresh);<br>//SampleRefreshLayout特有的方法需放在链式调用的前面<br>refresh .noDataLable(“暂时没有订单数据”)//无数据文本<br>.noDataImg(R.drawable.message_default)//无数据图片<br>.pageCount(20)//分页数量<br>.refreshEnable(true)//允许手动刷新<br>.loadMoreEnable(true)//允许分页<br>.showTopView(true)//显示一键回到顶部按钮<br>.adapter(new SBAdapter<string>(this)<br>.layout(android.R.layout.simple_list_item_1)//item布局<br>.bindViewData(new Converter<string>() {<br>@Override<br>public void convert(Holder holder, String item) {//数据绑定<br>holder.setText(android.R.id.text1, item);<br>}<br>}))//通用适配器<br>.refresh(new RefreshListener() {//刷新回调<br>@Override<br>public void onRefresh() {<br>load(true);<br>}</string></string></p>
-<p>})<br>.loadMore(new LoadMoreListener() {//加载更多回调<br>@Override<br>public void LoadMore() {<br>load(false);<br>}<br>})<br>.doRefresh();//主动调用刷新加载初始数据</p>
-<p>lambda写法</p>
-<p>@Override<br>protected void onCreate(Bundle savedInstanceState) {<br>super.onCreate(savedInstanceState);<br>setContentView(R.layout.activity_main);<br>refresh = (SampleRefreshLayout) findViewById(R.id.refresh);<br>//SampleRefreshLayout特有的方法需放在链式调用的前面<br>refresh .noDataLable(“暂时没有订单数据”)<br>.noDataImg(R.drawable.message_default)<br>.pageCount(20)<br>.refreshEnable(true)<br>.loadMoreEnable(true)<br>.showTopView(true)<br>.adapter(new SBAdapter<string>(this)<br>.layout(android.R.layout.simple_list_item_1)<br>.bindViewData(this::bindViewData))<br>.refresh(()-&gt;load(true))<br>.loadMore(()-&gt; load(false))<br>.doRefresh();</string></p>
-<p>}<br>public void bindViewData(Holder holder, String item) {<br>holder.setText(android.R.id.text1, item);<br>}</p>
-<p>load()请求</p>
-<p>private void load(final boolean isrefresh) {<br>new Thread(new Runnable() {<br>@Override<br>public void run() {<br>Looper.prepare();<br>try {<br>if (isrefresh)<br>Thread.sleep(2000);<br>else<br>Thread.sleep(500);<br>} catch (Exception e) {</p>
-<p>}<br>runOnUiThread(new Runnable() {<br>@Override<br>public void run() {<br>List<string> list = new ArrayList();<br>for (int i = 0; i &lt; 20; i++) {<br>list.add(“           “ + i);<br>}<br>if (isrefresh)<br>refresh.refreshComplete(list);<br>else<br>refresh.loadMoreComplete(list);<br>//请求失败调用 refresh.loadFailure();<br>}<br>});</string></p>
-<p>}<br>}).start();<br>}</p>
-<p>继承RefreshLayout实现自己布局样式</p>
-<p>public class MyRefreshLayout extends RefreshLayout {</p>
-<p>//添加自定义加载更多界面<br>public SampleRefreshLayout FooterLayout(FooterLayout layout) {<br>mLoadMoreView = layout;<br>return this;<br>}</p>
-<p>//添加自定义无数据界面，需实现NoDataLayout接口<br>@Override<br>NoDataLayout onCreateNoDataView() {<br>return new SimpleNoDataLayout(mContext);<br>}<br>//添加自定义加载更多布局，需实现FooterLayout接口<br>@Override<br>FooterLayout onCreateLoadMoreView() {<br>return mLoadMoreView;<br>}<br>//添加自定义回到顶部按钮布局<br>@Override<br>View onCreateTopView() {<br>return mTopView;<br>}<br>//添加自定义请求失败布局<br>@Override<br>View onCreateFailureView() {<br>return mFailureView;<br>}</p>
-<p>public SampleRefreshLayout(Context context) {<br>this(context, null);<br>}</p>
-<p>public SampleRefreshLayout(Context context, AttributeSet attrs) {<br>this(context, attrs, 0);<br>}</p>
-<p>public SampleRefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {<br>super(context, attrs, defStyleAttr);<br>build();//记得这一句<br>}</p>
-<p>依赖添加</p>
-<p>maven</p>
-<dependency><br><groupid>com.gengqiquan.refresh-layout</groupid><br><artifactid>layout</artifactid><br><version>1.0.1</version><br><type>pom</type><br></dependency>
 
-<p>gralde</p>
-<p>compile ‘com.gengqiquan.refresh-layout:layout:1.0.1’</p>
-<p>lvy</p>
-<dependency org="com.gengqiquan.refresh-layout" name="layout" rev="1.0.1"><br><artifact name="layout" ext="pom"></artifact><br></dependency>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat.png" alt="gengqiquan WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.png" alt="gengqiquan Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
 
 
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/13/RefreshLayout让你半小时以内完成一个列表界面/" rel="next" title="RefreshLayout让你半小时以内完成一个列表界面">
+                <i class="fa fa-chevron-left"></i> RefreshLayout让你半小时以内完成一个列表界面
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/13/Java-注解那些事儿/" rel="prev" title="Java 注解那些事儿">
+                Java 注解那些事儿 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
 
 
-<p>请多多star</p>
-<p>有什么建议的可以留言喔</p>
-<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
-<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
-]]></content>
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
-    <summary type="html">
-    
-      &lt;p&gt;之前写过一篇博文&lt;a href=&quot;http://blog.csdn.net/gengqiquan/article/details/52757393&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt; 如何写一个通用的列表控件&lt;/a&gt;讲到绝大多数项目总都会有各种形形色色的列表界面，但其实这些界面的区别就在于列表子项的布局不同和点击事件的响应不同而已，然而每次有个新的列表界面从适配器到Activity都需要写很多代码。作为一个懒人， 一直想把这些重复的工作给去掉，那篇博文提供了封装思路，许多伙伴要求能形成库方便大家使用。这几天得闲，就完成大家这个心愿&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
+  </div>
+
+
+        </div>
+        
+          
   
-  <entry>
-    <title>android生成分享长图并且添加全图水印</title>
-    <link href="http://www.gengqiquan.com/2017/07/13/android%E7%94%9F%E6%88%90%E5%88%86%E4%BA%AB%E9%95%BF%E5%9B%BE%E5%B9%B6%E4%B8%94%E6%B7%BB%E5%8A%A0%E5%85%A8%E5%9B%BE%E6%B0%B4%E5%8D%B0/"/>
-    <id>http://www.gengqiquan.com/2017/07/13/android生成分享长图并且添加全图水印/</id>
-    <published>2017-07-13T05:44:50.000Z</published>
-    <updated>2017-07-13T05:51:51.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>领导最近觉得携程的截屏生成长图分享效果比较好，所以我们也加了个；产品觉得分享出去的长图需要加公司品牌水印，于是我们也加了个；嗯，事件起因就是这样。<br>长图一般是ScrollView和ListView。<br>我们需要取得这两个控件的完整显示的图片。原理很简单，搞一张和控件长宽一致的画布（就是创建一个高宽相等的bitmap）。然后调用控件的draw方法把自己画到画布上去。</p>
-<a id="more"></a>
-<p>分别贴出两个控件的长图获取方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* 截取scrollview的屏幕</div><div class="line">**/</div><div class="line">public static Bitmap getScrollViewBitmap(ScrollView scrollView) &#123;</div><div class="line">int h = 0;</div><div class="line">Bitmap bitmap;</div><div class="line">for (int i = 0; i &lt; scrollView.getChildCount(); i++) &#123;</div><div class="line">h += scrollView.getChildAt(i).getHeight();</div><div class="line">&#125;</div><div class="line">// 创建对应大小的bitmap</div><div class="line"></div><div class="line">bitmap = Bitmap.createBitmap(ScreenUtils.getScreenWidth(scrollView.getContext()), h,</div><div class="line">Bitmap.Config.ARGB_4444);</div><div class="line">final Canvas canvas = new Canvas(bitmap);</div><div class="line">canvas.drawColor(Color.parseColor(&quot;#f2f7fa&quot;));</div><div class="line">scrollView.draw(canvas);</div><div class="line">return bitmap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* 截图listview</div><div class="line">**/</div><div class="line">public static Bitmap getListViewBitmap(ListView listView, String picpath) &#123;</div><div class="line">int h = 0;</div><div class="line">Bitmap bitmap;</div><div class="line">// 获取listView实际高度</div><div class="line">for (int i = 0; i &lt; listView.getChildCount(); i++) &#123;</div><div class="line">h += listView.getChildAt(i).getHeight();</div><div class="line">&#125;</div><div class="line">listView.getHeight());</div><div class="line">// 创建对应大小的bitmap</div><div class="line">bitmap = Bitmap.createBitmap(listView.getWidth(), h,</div><div class="line">Bitmap.Config.RGB_565);</div><div class="line">final Canvas canvas = new Canvas(bitmap);</div><div class="line">canvas.drawColor(Color.WHITE);</div><div class="line">listView.draw(canvas);</div><div class="line">// 测试输出</div><div class="line">FileOutputStream out = null;</div><div class="line">try &#123;</div><div class="line">out = new FileOutputStream(picpath);</div><div class="line">&#125; catch (FileNotFoundException e) &#123;</div><div class="line">e.printStackTrace();</div><div class="line">&#125;</div><div class="line">try &#123;</div><div class="line">if (null != out) &#123;</div><div class="line">bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);</div><div class="line">out.flush();</div><div class="line">out.close();</div><div class="line">&#125;</div><div class="line">&#125; catch (IOException e) &#123;</div><div class="line">&#125;</div><div class="line">return bitmap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>奉送个获取具体view的显示图的方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/**</div><div class="line">* 生成某个view的图片</div><div class="line">*</div><div class="line">* @author gengqiquan</div><div class="line">* @date 2017/3/20 上午10:34</div><div class="line">*/</div><div class="line">public static Bitmap getViewDrawingCacheBitmap(View view) &#123;</div><div class="line">view = view.getRootView();</div><div class="line">if (!view.isDrawingCacheEnabled()) &#123;</div><div class="line">view.setDrawingCacheEnabled(true);</div><div class="line">&#125;</div><div class="line">view.destroyDrawingCache();</div><div class="line">view.buildDrawingCache();</div><div class="line">Bitmap bm = view.getDrawingCache();</div><div class="line">view.setDrawingCacheEnabled(false);</div><div class="line">return bm;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>再奉送个生成某个LinearLayout图片的方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* 生成某个LinearLayout的图片</div><div class="line">*</div><div class="line">* @author gengqiquan</div><div class="line">* @date 2017/3/20 上午10:34</div><div class="line">*/</div><div class="line">public static Bitmap getLinearLayoutBitmap(LinearLayout linearLayout) &#123;</div><div class="line">int h = 0;</div><div class="line">// 获取LinearLayout实际高度</div><div class="line">for (int i = 0; i &lt; linearLayout.getChildCount(); i++) &#123;</div><div class="line">linearLayout.getChildAt(i).measure(0, 0);</div><div class="line">h += linearLayout.getChildAt(i).getMeasuredHeight();</div><div class="line">&#125;</div><div class="line">linearLayout.measure(0, 0);</div><div class="line">// 创建对应大小的bitmap</div><div class="line">Bitmap bitmap = Bitmap.createBitmap(linearLayout.getMeasuredWidth(), h,</div><div class="line">Bitmap.Config.RGB_565);</div><div class="line">final Canvas canvas = new Canvas(bitmap);</div><div class="line">canvas.drawColor(Color.WHITE);</div><div class="line">linearLayout.draw(canvas);</div><div class="line">return bitmap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>完了产品肯定会让你在下面或者上面加上公司的logo图片的，嗯。好人做到低，再送个拼接图片的方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">*拼接图片</div><div class="line">* @param first 分享的长图</div><div class="line">* @param second  公司logo图</div><div class="line">*@author gengqiquan</div><div class="line">*@date 2017/3/25 下午4:56</div><div class="line">*/</div><div class="line">public static Bitmap add2Bitmap(Bitmap first, Bitmap second) &#123;</div><div class="line">float scale = ((float) first.getWidth()) / second.getWidth();</div><div class="line">second = ImageUtil.scaleImg(second, scale);</div><div class="line">int width = first.getWidth();</div><div class="line">int height = first.getHeight() + second.getHeight();</div><div class="line">Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);</div><div class="line">Canvas canvas = new Canvas(result);</div><div class="line">canvas.drawBitmap(first, 0, 0, null);</div><div class="line">canvas.drawBitmap(second, 0, first.getHeight(), null);</div><div class="line">return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>再来个添加全图水印的方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">* @param first 原始图</div><div class="line">* @param mark  水印图</div><div class="line">* @author gengqiquan</div><div class="line">* @date 2017/3/25 下午4:58</div><div class="line">*/</div><div class="line">public static Bitmap waterMark(Bitmap first, Bitmap mark) &#123;</div><div class="line">float scale = ((float) first.getWidth()) / mark.getWidth();</div><div class="line">mark = ImageUtil.scaleImg(mark, scale);</div><div class="line">int height = first.getHeight();</div><div class="line">Canvas canvas = new Canvas(first);</div><div class="line">int h = 0;</div><div class="line">while (h &lt; height + mark.getHeight()) &#123;</div><div class="line">canvas.drawBitmap(mark, 0, h, null);</div><div class="line">h = h + mark.getHeight();</div><div class="line">&#125;</div><div class="line">return first;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>坑爹的chrome有bug。一在这个位置点换行接向上按键就崩溃。写个博客崩溃了七八次。最近真的是运气不好。</p>
-<p>其实我是想说：由于最近被注入了个对象，依赖性比较强，所以这段时间很少写博客了，后面补上。</p>
-<p>有什么建议的可以留言喔</p>
-<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
-<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;领导最近觉得携程的截屏生成长图分享效果比较好，所以我们也加了个；产品觉得分享出去的长图需要加公司品牌水印，于是我们也加了个；嗯，事件起因就是这样。&lt;br&gt;长图一般是ScrollView和ListView。&lt;br&gt;我们需要取得这两个控件的完整显示的图片。原理很简单，搞一张和控件长宽一致的画布（就是创建一个高宽相等的bitmap）。然后调用控件的draw方法把自己画到画布上去。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div id="sidebar-dimmer"></div>
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/gengqiquan.png"
+               alt="gengqiquan" />
+          <p class="site-author-name" itemprop="name">gengqiquan</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">博客</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/gengqiquan" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/gengqiquan" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://juejin.im/user/5822c8350ce4630058a7571f" target="_blank" title="掘金">
+                  
+                    <i class="fa fa-fw fa-spinner"></i>
+                  
+                  掘金
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/geng-qi-quan" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-vcard"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/gengqiquan" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-square"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://stackoverflow.com/users/7912402/gengqiquan" target="_blank" title="stackoverflow">
+                  
+                    <i class="fa fa-fw fa-stack-overflow"></i>
+                  
+                  stackoverflow
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
   
-  <entry>
-    <title>LoginUtil一句代码实现各种登录验证前置操作</title>
-    <link href="http://www.gengqiquan.com/2017/07/12/LoginUtil%E4%B8%80%E5%8F%A5%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%90%84%E7%A7%8D%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81%E5%89%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/"/>
-    <id>http://www.gengqiquan.com/2017/07/12/LoginUtil一句代码实现各种登录验证前置操作/</id>
-    <published>2017-07-12T09:47:42.000Z</published>
-    <updated>2017-07-12T09:49:46.000Z</updated>
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gengqiquan</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+<!-- <div class="powered-by">
+  <a href="http://blog.csdn.net/gengqiquan" rel="external nofollow" target="_blank">我的CSDN</a> 
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+-->
+
+
+        
+
+        
+      </div>
+    </footer>
+
     
-    <content type="html"><![CDATA[<p>尊重他人的劳动成果，转载请标明出处：<a href="http://blog.csdn.net/gengqiquan/article/details/53782194，" target="_blank" rel="external">http://blog.csdn.net/gengqiquan/article/details/53782194，</a> 本文出自:【gengqiquan的博客】</p>
-<h1 id="一句代码进行登录验证前置操作"><a href="#一句代码进行登录验证前置操作" class="headerlink" title="一句代码进行登录验证前置操作"></a>一句代码进行登录验证前置操作</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LoginUtil.doActionNeedLogin(<span class="keyword">this</span>, () -&gt; &#123;</div><div class="line">       <span class="comment">//do something need login</span></div><div class="line">      &#125;);</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><h3 id="doActionNeedLogin"><a href="#doActionNeedLogin" class="headerlink" title="doActionNeedLogin"></a>doActionNeedLogin</h3><p>检查是否登录<br>登录直接执行操作，未登录跳转登录，登录后继续执行操作，放弃登录则什么都不做</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LoginUtil.doActionNeedLogin(<span class="keyword">this</span>, () -&gt; &#123;</div><div class="line">       <span class="comment">//do something need login</span></div><div class="line">      &#125;);</div></pre></td></tr></table></figure>
-<h3 id="doActionJustAfterLogin"><a href="#doActionJustAfterLogin" class="headerlink" title="doActionJustAfterLogin"></a>doActionJustAfterLogin</h3><p>检查是否登录<br>已登录什么都不做<br>未登录跳转登录，登录后继续执行操作，放弃登录则什么都不做</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LoginUtil.doActionJustAfterLogin(<span class="keyword">this</span>, () -&gt; &#123;</div><div class="line">       <span class="comment">//do something need login</span></div><div class="line">      &#125;);</div></pre></td></tr></table></figure>
-<h3 id="doActionAlreadyLogin"><a href="#doActionAlreadyLogin" class="headerlink" title="doActionAlreadyLogin"></a>doActionAlreadyLogin</h3><p>需要登录才能执行的操作<br>登录直接执行操作，未登录跳转登录，登录后什么都不做</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LoginUtil.doActionAlreadyLogin(<span class="keyword">this</span>, () -&gt; &#123;</div><div class="line">       <span class="comment">//do something need login</span></div><div class="line">      &#125;);</div></pre></td></tr></table></figure>
-<h3 id="doLogin"><a href="#doLogin" class="headerlink" title="doLogin"></a>doLogin</h3><p>跳转登录，什么都不做</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LoginUtil.doLogin(<span class="keyword">this</span>);</div></pre></td></tr></table></figure>
-<h3 id="isLogin"><a href="#isLogin" class="headerlink" title="isLogin"></a>isLogin</h3><p>判断是否登录，已登录返回true</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LoginUtil.isLogin();</div></pre></td></tr></table></figure>
-<h2 id="初始化默认配置"><a href="#初始化默认配置" class="headerlink" title="初始化默认配置"></a>初始化默认配置</h2><h3 id="设置登录activity"><a href="#设置登录activity" class="headerlink" title="设置登录activity"></a>设置登录activity</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LoginUtil.setLoginActivity(LoginActivity.class);</div></pre></td></tr></table></figure>
-<h3 id="添加自定义是否登录判断拦截器"><a href="#添加自定义是否登录判断拦截器" class="headerlink" title="添加自定义是否登录判断拦截器"></a>添加自定义是否登录判断拦截器</h3><p>在应用入口调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!Util.checkNULL(LoginUtil.USER_POHONE)) &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">     &#125;</div><div class="line">     LoginUtil.USER_POHONE = SharedUtil.getString(context, <span class="string">"username"</span>);</div><div class="line">     <span class="keyword">if</span> (!Util.checkNULL(LoginUtil.USER_POHONE)) &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
-<h2 id="登录配置"><a href="#登录配置" class="headerlink" title="登录配置"></a>登录配置</h2><p>在loginAtivity登录成功后和在应用启动时从本地缓存中取出登录凭证赋值给 LoginUtil.USER_TOKEN</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LoginUtil.USER_TOKEN = token;</div></pre></td></tr></table></figure>
-<p>token为登录凭证，如果你自定义了登录拦截器，记得为你的判断变量赋值</p>
-<p>在loginAtivity的onfinish()方法中调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (LoginUtil.CALLBACK != <span class="keyword">null</span>)</div><div class="line">          LoginUtil.CALLBACK.postExec();</div></pre></td></tr></table></figure>
-<h2 id="依赖添加"><a href="#依赖添加" class="headerlink" title="依赖添加"></a>依赖添加</h2><h2 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">  &lt;groupId&gt;com.gengqiquan.login-util&lt;/groupId&gt;</div><div class="line">  &lt;artifactId&gt;library&lt;/artifactId&gt;</div><div class="line">  &lt;version&gt;1.0.1&lt;/version&gt;</div><div class="line">  &lt;type&gt;pom&lt;/type&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
-<h2 id="gralde"><a href="#gralde" class="headerlink" title="gralde"></a>gralde</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">compile &apos;com.gengqiquan.login-util:app:1.0.1&apos;</div></pre></td></tr></table></figure>
-<h2 id="lvy"><a href="#lvy" class="headerlink" title="lvy"></a>lvy</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;dependency org=&apos;com.gengqiquan.login-util&apos; name=&apos;app&apos; rev=&apos;1.0.1&apos;&gt;</div><div class="line">  &lt;artifact name=&apos;app&apos; ext=&apos;pom&apos; &gt;&lt;/artifact&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
-<p>完整的示例项目地址<a href="https://github.com/gengqiquan/LoginUtil" target="_blank" rel="external">https://github.com/gengqiquan/LoginUtil</a></p>
-<p>请多多star</p>
-<p>有什么建议的可以留言喔</p>
-<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
-<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
-]]></content>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
-    <summary type="html">
-    
-      &lt;p&gt;尊重他人的劳动成果，转载请标明出处：&lt;a href=&quot;http://blog.csdn.net/gengqiquan/article/details/53782194，&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/gengqiquan/article/details/53782194，&lt;/a&gt; 本文出自:【gengqiquan的博客】&lt;/p&gt;
-&lt;h1 id=&quot;一句代码进行登录验证前置操作&quot;&gt;&lt;a href=&quot;#一句代码进行登录验证前置操作&quot; class=&quot;headerlink&quot; title=&quot;一句代码进行登录验证前置操作&quot;&gt;&lt;/a&gt;一句代码进行登录验证前置操作&lt;/h1&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;LoginUtil.doActionNeedLogin(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;, () -&amp;gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;       &lt;span class=&quot;comment&quot;&gt;//do something need login&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;      &amp;#125;);&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-  </entry>
+
+  </div>
+
   
-  <entry>
-    <title>Support Annotations注解介绍以及自定义注解代替枚举</title>
-    <link href="http://www.gengqiquan.com/2017/07/12/Support-Annotations%E6%B3%A8%E8%A7%A3%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E4%BB%A3%E6%9B%BF%E6%9E%9A%E4%B8%BE/"/>
-    <id>http://www.gengqiquan.com/2017/07/12/Support-Annotations注解介绍以及自定义注解代替枚举/</id>
-    <published>2017-07-12T09:46:33.000Z</published>
-    <updated>2017-07-12T09:50:05.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>尊重他人的劳动成果，转载请标明出处：<a href="http://blog.csdn.net/gengqiquan/article/details/70185731，" target="_blank" rel="external">http://blog.csdn.net/gengqiquan/article/details/70185731，</a> 本文出自:【gengqiquan的博客】</p>
-<p>上篇博客嘀咕了注解的基本知识。这篇和大家唠唠Android提供的一些编译限制注解以及怎么自定义贴合自己项目框架的限制注解</p>
-<p>Android支持Java默认的那些注解，同时通过一些依赖库也额外提供了很多注解，了解并熟练使用这些注解能够让你的代码更加严谨，结构更加清晰、架构更易维护</p>
-<a id="more"></a>
-<p>  Android support library从19.1版本开始引入了一个新的注解库Support Annotations<br>support appcompa-v7里面默认包含了这个库，如果你没有使用的话也可以通过添加单独依赖的方式引入<br>在model的build.gradle中添加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile &apos;com.android.support:support-annotations:25.2.0&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>选取的25.2.0版本的，包含了如下几种类型的注解</p>
-<ul>
-<li><p>资源引用限制类：用于限制参数必须为对应的资源类型</p>
-<p>AnimRes AnyRes ArrayRes AttrRes BoolRes ColorRes DimenRes DrawableRes FractionRes IdRes IntegerRes InterpolatorRes LayoutRes MenuRes PluralsRes Px RawRes StringRes StyleableRes StyleRes TransitionRes XmlRes</p>
-</li>
-<li><p>线程执行限制类：用于限制方法或者类必须在指定的线程执行</p>
-<p>AnyThread BinderThread MainThread UiThread WorkerThread </p>
-</li>
-<li><p>参数为空性限制类：用于限制参数是否可以为空</p>
-<p>NonNull Nullable </p>
-</li>
-<li><p>类型范围限制类：用于限制标注值的值范围</p>
-<p>FloatRang IntRange</p>
-</li>
-<li><p>类型定义类：用于限制定义的注解的取值集合</p>
-<p>IntDef StringDef</p>
-</li>
-<li><p>其他的功能性注解：</p>
-<p>CallSuper CheckResult ColorInt Dimension Keep Px RequiresApi RequiresPermission RestrictTo Size VisibleForTesting</p>
-</li>
-</ul>
-<p>下面分别举例怎么使用</p>
-<h3 id="资源引用限制类"><a href="#资源引用限制类" class="headerlink" title="资源引用限制类"></a>资源引用限制类</h3><p>用于当我们期望的输入为所注解对应的类型时，可以加上对应的资源类型注解。这样如果输入了非预期类型的资源ID就编译器就会报错，比如我们在写项目框架时定义了一个设置主布局的抽象方法，需要子类继承该类是实现这个方法，返回一个layout布局ID，一般我们会这么写</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public abstract int getLayoutID();</div></pre></td></tr></table></figure>
-<p>这样这是限制了返回的数据类型必须为int。如果实现该类的人穿了一个drawable的ID或者一个int数值，也是可以正常编译的。要等到运行到该界面时才会报错。这个时候我们就可以用Support Annotations包提供的注解来标注该方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@LayoutRes</div><div class="line">public abstract int getLayoutID();</div></pre></td></tr></table></figure>
-<p>这样当实现该类的人传入一个非layout的ID时编译器就会报except resource of type layout异常 而导致无法编译 。</p>
-<h3 id="线程执行限制类"><a href="#线程执行限制类" class="headerlink" title="线程执行限制类"></a>线程执行限制类</h3><p>在我们编码的时候，合理的抽取代码为独立的方法是一个很好的习惯，不仅有利于代码的阅读以及相同逻辑的多处调用，也方便后期的重构，同时抽取代码的时候能够让你思考这块逻辑实现是否合理是否过于臃肿。但抽取出来的方法我们有可能放在编写的activity里也可能放在公共类或者变成静态方法，这个时候你不能保证知道调用者会在哪里使用你这段代码。</p>
-<p>除非他花时间去仔细阅读你的代码，否则他也不会知道他调用的方法里调用了多少方法，比如方法里包含了一些io操作的代码，或者方法执行特别耗时应该在子线程调用。或者方法里面操作了UI必须在主线程调用。这个时候就可以用线程执行限制类注解在你的方法上，当个调用者并没有再你期望的线程中调用这个方法时编译器就会报错。</p>
-<p>需要注意的是这些注解的作用域是类和方法。标注与某个类时表明该类以及内部的所以方法都必须在指定线程调用执行，包括构造方法。<br>比如MVP中view的接口方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public interface IBaseView &#123;</div><div class="line">    @UiThread</div><div class="line">    void showLoading();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>加载框必须要在UI线程调用</p>
-<h3 id="参数为空性限制类"><a href="#参数为空性限制类" class="headerlink" title="参数为空性限制类"></a>参数为空性限制类</h3><p>这个就比较简单了，大家在实现Android的SDK方法的时候经常可以在重写系统方法的时候遇到</p>
-<p>NonNull 标注在参数上时编译器会检查参数字段是否可能为空，标记在方法上时会检查返回的值是否为空。可能为空的情况编译器会提示你有一个潜在的崩溃危险</p>
-<p>Nullable 标注在参数或有返回值的方法上，表明该参数或方法返回值可以为空</p>
-<h3 id="类型限制类"><a href="#类型限制类" class="headerlink" title="类型限制类"></a>类型限制类</h3><p>限制参数的数据类型 </p>
-<p>FloatRange 限定被注解对象必须为float或者double</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">@Retention(CLASS)</div><div class="line">@Target(&#123;METHOD,PARAMETER,FIELD,LOCAL_VARIABLE,ANNOTATION_TYPE&#125;)</div><div class="line">public @interface FloatRange &#123;</div><div class="line">    //起始值</div><div class="line">    double from() default Double.NEGATIVE_INFINITY;</div><div class="line">    //终点值</div><div class="line">    double to() default Double.POSITIVE_INFINITY;</div><div class="line"></div><div class="line">    //是否包含起始值</div><div class="line">    boolean fromInclusive() default true;</div><div class="line"></div><div class="line">    //是否包含终点值</div><div class="line">    boolean toInclusive() default true;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>IntRange 限定被注解对象必须为int或者long</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Retention(CLASS)</div><div class="line">@Target(&#123;METHOD,PARAMETER,FIELD,LOCAL_VARIABLE,ANNOTATION_TYPE&#125;)</div><div class="line">public @interface IntRange &#123;</div><div class="line">    //起始值，包含起始值</div><div class="line">    long from() default Long.MIN_VALUE;</div><div class="line">    //终点值，包含终点值</div><div class="line">    long to() default Long.MAX_VALUE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="类型定义类"><a href="#类型定义类" class="headerlink" title="类型定义类"></a>类型定义类</h3><p>一般用于替代枚举，当我们定义API时，有时候需要传入本地定义好的一些值。为了使这些值具有可读性我们会选择用静态常量，有时候需要限制参数的可取集合。而这些值得类型可能是基础数据类型。为了避免调用API的人传入了其他的不可处理的非预期值进来，我们往往会选择用枚举。而枚举是比较耗费性能的。这个时候我们就可以用注解来替代<br>比如我们有一个图片上传的API。上传类型需要选择jpg还是png，枚举的方式就是比较简单了。直接定义一个图片类型枚举</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum  ImgType &#123;</div><div class="line">    jpg,png;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>API</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public void  uploadImg(ImgType type) &#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>你现在我们用注解的方式来实现这个需求<br>我们先定义两个int常量，放入一个常量类Data里</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public class   Data &#123;</div><div class="line">   public static final int JPG=1000;</div><div class="line">   public static final int PNG=1001;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后我们定义一个ImgType注解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@IntDef(&#123;Data.JPG,Data.PNG&#125;)</div><div class="line">@Retention(RetentionPolicy.SOURCE)</div><div class="line">public @interface ImgType &#123;</div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样我们就定义了一个编译时检查的注解，我们把这个注解打在上传图片的API的类型参数上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public void  uploadImg(@ImgType int type) &#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这样当我们调用API时，一旦我们传入的参数不是Data.JPG或者Data.PNG，编译器就会报错无法通过编译</p>
-<p>StringDef用法类似</p>
-<h3 id="其他功能类"><a href="#其他功能类" class="headerlink" title="其他功能类"></a>其他功能类</h3><p>CallSuper 如果你的API允许使用者重写你的方法，但是你又需要你自己的方法(父方法)在重写的时候也被调用，这时候你可以使用@CallSuper注解</p>
-<p>CheckResult 如果你的方法返回一个值，你期望调用者用这个值做些事情，那么你可以使用@CheckResult注解标注这个方法，一般用于那些返回值被使用才有意义的API</p>
-<p>ColorInt 当你期望传递的是一个真实的RGB或者ARGB的颜色值而不是颜色资源ID的时候可以使用该注解来提示API调用者</p>
-<p>Dimension 标注的对象或者方法必须提供一个int的值，就是Android的屏幕上描述距离的一种单位</p>
-<p>Keep 启用混淆的时候告诉编译器被注解的对象不要混淆</p>
-<p>Px 标注的对象或者方法必须提供一个int的值，pixel</p>
-<p>RequiresApi 当你提供的API是基于某个SDK版本开发的，要求调用者必须处理好低SDK版本兼容操作的时候，或者告诉调用者你的API只能在某个版本的SDK之后才可以正常的工作</p>
-<p>RequiresPermission 告诉调用你API的人你的API需要特定的权限<br>如果你至少需要权限集合中的一个，你可以使用anyOf属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@RequiresPermission(anyOf = &#123;</div><div class="line">    Manifest.permission.INTERNET,</div><div class="line">    Manifest.permission.READ_PHONE_STATE&#125;)</div><div class="line">public abstract string getSaveUser();</div></pre></td></tr></table></figure></p>
-<p>如果你同时需要多个权限，你可以用allOf属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@RequiresPermission(allOf = &#123;</div><div class="line">    Manifest.permission.READ_PHONE_STATE,</div><div class="line">    Manifest.permission.READ_PHONE_STATE&#125;)</div><div class="line">public abstract string getSaveUser();</div></pre></td></tr></table></figure></p>
-<p>RestrictTo 注解的对象只接受一个特定范围的值，值范围是一个枚举</p>
-<p>Size 限制一个列表集合的大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Retention(CLASS)</div><div class="line">@Target(&#123;PARAMETER,LOCAL_VARIABLE,METHOD,FIELD,ANNOTATION_TYPE&#125;)</div><div class="line">public @interface Size &#123;</div><div class="line">    //该注解必须要给一个值，默认-1</div><div class="line">    long value() default -1;</div><div class="line">    //最小的大小</div><div class="line">    long min() default Long.MIN_VALUE;</div><div class="line">   // 最大的大小</div><div class="line">    long max() default Long.MAX_VALUE;</div><div class="line">    //大小必须为这个值的倍数，默认为1</div><div class="line">    long multiple() default 1;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>VisibleForTesting 这个注解作用的对象测试的时候可以直接调用</p>
-<p>以上就是Support Annotations提供的注解的用法了，由于篇幅问题，下一篇我们在聊怎么定义以及代码解析运行时注解</p>
-<p>有什么建议的可以留言喔</p>
-<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
-<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;尊重他人的劳动成果，转载请标明出处：&lt;a href=&quot;http://blog.csdn.net/gengqiquan/article/details/70185731，&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/gengqiquan/article/details/70185731，&lt;/a&gt; 本文出自:【gengqiquan的博客】&lt;/p&gt;
-&lt;p&gt;上篇博客嘀咕了注解的基本知识。这篇和大家唠唠Android提供的一些编译限制注解以及怎么自定义贴合自己项目框架的限制注解&lt;/p&gt;
-&lt;p&gt;Android支持Java默认的那些注解，同时通过一些依赖库也额外提供了很多注解，了解并熟练使用这些注解能够让你的代码更加严谨，结构更加清晰、架构更易维护&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title>告别onActivityResult ，用代理实现Rx方式获取startActivityForResult结果</title>
-    <link href="http://www.gengqiquan.com/2017/07/11/%E5%91%8A%E5%88%ABonActivityResult-%EF%BC%8C%E7%94%A8%E4%BB%A3%E7%90%86%E5%AE%9E%E7%8E%B0Rx%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96startActivityForResult%E7%BB%93%E6%9E%9C/"/>
-    <id>http://www.gengqiquan.com/2017/07/11/告别onActivityResult-，用代理实现Rx方式获取startActivityForResult结果/</id>
-    <published>2017-07-11T10:04:19.000Z</published>
-    <updated>2017-07-11T10:05:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>尊重他人的劳动成果，转载请标明出处：<a href="http://blog.csdn.net/gengqiquan/article/details/74331845，" target="_blank" rel="external">http://blog.csdn.net/gengqiquan/article/details/74331845，</a> 本文出自:【gengqiquan的博客】<br>一个多月没写博客了，实在是最近事情特别多。<br>昨天，在review 公司项目代码的时候发现onActivityResult方法真的好烦，太影响代码的阅读了，而且编写的时候也需要到处切code位置。于是就有了这篇博客和<a href="https://github.com/gengqiquan/RxActivityResult" target="_blank" rel="external">RxActivityResult</a> 这个库。</p>
-<a id="more"></a>
-<p>大概的调用方式就是这样的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">RxActivityResult.with(MainActivity.this).putString(&quot;key&quot;, &quot;笑一个&quot;)</div><div class="line">                      .startActivityWithResult(new Intent(MainActivity.this, SecondActivity.class))</div><div class="line">                      .subscribe(new Consumer&lt;Intent&gt;() &#123;</div><div class="line">                          @Override</div><div class="line">                          public void accept(Intent intent) throws Exception &#123;</div><div class="line">                              tv.setText(intent.getStringExtra(&quot;msg&quot;));</div><div class="line">                          &#125;</div><div class="line">                      &#125;);</div></pre></td></tr></table></figure>
-<p>源码大家直接到链接看好了，这篇博客主要是聊聊思路</p>
-<p>要想完全告别onActivityResult（），有两种方案<br>1、使用进程注入的方式hook系统的activity数据发送，这种方案比较复杂，用到ndk知识，需要在源码下编译应用，不适合大部分人。<br>2、利用代理进行跳转事件转发代理和 onActivityResult（）事件代理接收后再通知委托者。<br>这里我们用第二种，代理对象有两个供选择，一个是activity，每次startActivityForResult的时候打开的使我们的代理activity（ProxyActivity），然后由ProxyActivity进行转发intent，并在ProxyActivity里进行 onActivityResult（）事件处理，然后通知委托者；所以我们需要在manifest进行注册，并且需要合理的管理activity的堆栈。<br>一个是利用Fragment，这就需要将Fragment加载到activity上，否则发起intent的时候会报 not attach activity 异常，再一个就是需要兼容v4和app两种情况，当然，如果大家的项目里的基类是固定的一种就不需要了。</p>
-<p>下面我们来看看具体实现方式<br>首先构建一个请求容器对象，用来存放被转发的intent和请求识别码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public class Request  &#123;</div><div class="line">    Intent intent;</div><div class="line">    int code;</div><div class="line"></div><div class="line">    public Request(Intent intent, int code) &#123;</div><div class="line">        this.intent = intent;</div><div class="line">        this.code = code;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>再构建一个结果容器对象，用来存放onActivityResult返回的结果和请求识别码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public class Result &#123;</div><div class="line">    Intent intent;</div><div class="line"></div><div class="line">    public Result(Intent intent, int code) &#123;</div><div class="line">        this.intent = intent;</div><div class="line">        this.code = code;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    int code;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后我们的返回结果是要以RxJava的方式传递给委托者的。这里我们可以参考rxbus的实现方式<br>构建一个subject</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static PublishSubject&lt;Result&gt; subject = PublishSubject.create();</div></pre></td></tr></table></figure>
-<p>然后我们需要把Fragment加载到Activity上，这就需要有一个界面控件ID和一个FragmentManager，FragmentManager我们可以从委托者获取，根据activity和fragmentActivity的不同决定获取不同的FragmentManager，这个控件ID怎么来呢?熟悉Android源码的同学可能就知道了，每个界面的根布局其实都是同一个系统ID（android.R.id.content）这个ID其实可以用来做很多事，比如透明状态栏时软键盘不顶起布局的时候可以用来强制位移布局，或者自己做伪分屏。</p>
-<p>接下来就是创建一个代理fragment并且把请求委托给它</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">final Request request = new Request(intent, intent.hashCode());</div><div class="line">    final V4Fragment v4Fragment = new V4Fragment();</div><div class="line">    v4Fragment.setRequest(request);</div><div class="line">    v4Transaction.replace(android.R.id.content, v4Fragment)</div><div class="line">            .commitAllowingStateLoss();</div><div class="line">    v4Transaction = null;</div></pre></td></tr></table></figure>
-<p>这里的请求识别码我们直接通过求intent的hash值来得到。</p>
-<p>在代理fragment里进行转发intent和转发返回结果操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">public class V4Fragment extends Fragment &#123;</div><div class="line">    @Override</div><div class="line">    public void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</div><div class="line">        if (resultCode == Activity.RESULT_OK) &#123;</div><div class="line">            if (request != null) &#123;</div><div class="line">                RxActivityResult.post(new Result(data, request.code));</div><div class="line">            &#125;</div><div class="line">            request = null;</div><div class="line">            this.getActivity().getSupportFragmentManager().beginTransaction().detach(this).commit();</div><div class="line">        &#125;</div><div class="line">        super.onActivityResult(requestCode, resultCode, data);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Request request;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onAttach(Activity activity) &#123;</div><div class="line">        super.onAttach(activity);</div><div class="line">        if (request != null) &#123;</div><div class="line">            Intent intent = request.intent;</div><div class="line">            startActivityForResult(intent, 0);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setRequest(Request request) &#123;</div><div class="line">        this.request = request;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过subject进行发送<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">protected static void post(Result result) &#123;</div><div class="line"></div><div class="line">      if (result.intent != null) &#123;</div><div class="line">          subject.onNext(result);</div><div class="line">      &#125; else &#123;</div><div class="line">          subject.onError(new Exception(&quot;intent is null&quot;));</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<p>根据请求识别码进行筛选</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">return subject.filter(new Predicate&lt;Result&gt;() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean test(Result result) throws Exception &#123;</div><div class="line">                    return request.code == result.code;</div><div class="line">                &#125;</div><div class="line">            &#125;).map(new Function&lt;Result, Intent&gt;() &#123;</div><div class="line">                @Override</div><div class="line">                public Intent apply(Result result) throws Exception &#123;</div><div class="line">                    return result.intent;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div></pre></td></tr></table></figure>
-<p>这样就得到了委托者所需要的返回结果了。</p>
-<p>完整的示例代码、源码及gradle依赖方式请看<a href="https://github.com/gengqiquan/RxActivityResult" target="_blank" rel="external">https://github.com/gengqiquan/RxActivityResult</a> </p>
-<p>有什么建议的可以留言喔</p>
-<p>如果我的博客对您有帮助，请留言鼓励下或者点个赞吧！</p>
-<p>我建了一个QQ群（群号：121606151），用于大家讨论交流Android技术问题，有兴趣的可以加下，大家一起进步。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;尊重他人的劳动成果，转载请标明出处：&lt;a href=&quot;http://blog.csdn.net/gengqiquan/article/details/74331845，&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/gengqiquan/article/details/74331845，&lt;/a&gt; 本文出自:【gengqiquan的博客】&lt;br&gt;一个多月没写博客了，实在是最近事情特别多。&lt;br&gt;昨天，在review 公司项目代码的时候发现onActivityResult方法真的好烦，太影响代码的阅读了，而且编写的时候也需要到处切code位置。于是就有了这篇博客和&lt;a href=&quot;https://github.com/gengqiquan/RxActivityResult&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RxActivityResult&lt;/a&gt; 这个库。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
+
+
+
+
+
+
+
+
+
+
+
+
   
-</feed>
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("1G0zOVewtjMJfjnN8YRjrH13-gzGzoHsz", "lsjql1wvlpfdOYPiARDDz766");AV.useAVCloudUS();</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
